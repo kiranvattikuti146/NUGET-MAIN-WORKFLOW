@@ -19,7 +19,7 @@ jobs:
       nuGetRestoreArgs: '--force'
       verbosity: 'detailed'
       nuGetVersion: 'latest'
-      nuGetPath: '/usr/local/bin/nuget'
+      nuGetPath: '/home/runner/work/_temp'
       searchPattern: '**/*.csproj'
       outputdir: 'path/to/output'
       versionByBuild: true
