@@ -10,7 +10,7 @@ on:
 
 jobs:
   nuget-build:
-    uses: ./.github/workflows/reusable-workflow.yml
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       solution: 'path/to/solution.sln'
       nugetConfigPath: 'path/to/nuget.config'
