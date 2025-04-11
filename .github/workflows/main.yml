@@ -1,1 +1,38 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nuget-build:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    with:
+      solution: 'path/to/solution.sln'
+      nugetConfigPath: 'path/to/nuget.config'
+      restoreMode: 'restore'
+      noCache: true
+      nuGetRestoreArgs: '--force'
+      verbosity: 'detailed'
+      nuGetVersion: 'latest'
+      nuGetPath: '/usr/local/bin/nuget'
+      searchPattern: '**/*.csproj'
+      outputdir: 'path/to/output'
+      includeReferencedProjects: '${{ secrets.SENSITIVE_INFO_1 }}'
+      versionByBuild: true
+      versionEnvVar: 'BUILD_VERSION'
+      requestedMajorVersion: '${{ secrets.SENSITIVE_INFO_2 }}'
+      requestedMinorVersion: '${{ secrets.SENSITIVE_INFO_3 }}'
+      requestedPatchVersion: '${{ secrets.SENSITIVE_INFO_4 }}'
+      configurationToPack: 'Release'
+      buildProperties: 'Configuration=Release'
+      nuGetAdditionalArgs: '--include-symbols'
+      nuGetFeedType: 'internal'
+      connectedServiceName: '${{ secrets.SENSITIVE_INFO_5 }}'
+      feedName: 'MyNuGetFeed'
+      continueOnEmptyNupkgMatch: '${{ secrets.SENSITIVE_INFO_6 }}'
 
