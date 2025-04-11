@@ -18,8 +18,6 @@ jobs:
       noCache: true
       nuGetRestoreArgs: '--force'
       verbosity: 'detailed'
-      nuGetVersion: 'latest'
-      nuGetPath: '/home/runner/work/_temp'
       searchPattern: '**/*.csproj'
       outputdir: 'path/to/output'
       versionByBuild: true
