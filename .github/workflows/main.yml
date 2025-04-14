@@ -30,11 +30,13 @@ jobs:
       minorVersion: 0
       patchVersion: 0
       configurationToPack: Release
-      buildProperties: Platform=AnyCPU
+      buildProperties: Platform="Any CPU"
       nuGetAdditionalArgs: ""
 
       # Publisher Inputs
       nuGetFeedType: internal
-      apiKey: YOUR_API_KEY_HERE
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       skipDuplicate: false
+
+    secrets:
+      apiKey: ${{ secrets.AZURE-DEVOPS-PAT }}
