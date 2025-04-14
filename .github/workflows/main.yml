@@ -34,5 +34,6 @@ jobs:
 
       # Publisher Inputs
       nuGetFeedType: internal
-      connectedServiceName: includeReferencedProjects3      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      connectedServiceName: includeReferencedProjects3      
+      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       continueOnEmptyNupkgMatch: false
