@@ -22,18 +22,18 @@ jobs:
       # Packager Inputs
       searchPattern: MyProject.csproj
       outputdir: ./nupkgs
-      includeReferencedProjects: true   # Added missing input
+      includeSymbols: true
       versionByBuild: false
       versionEnvVar: ""
-      requestedMajorVersion: 1      # Added missing input
-      requestedMinorVersion: 0
-      requestedPatchVersion: 0
+      majorVersion: 1
+      minorVersion: 0
+      patchVersion: 0
       configurationToPack: Release
       buildProperties: Platform=AnyCPU
       nuGetAdditionalArgs: ""
 
       # Publisher Inputs
       nuGetFeedType: internal
-      connectedServiceName: includeReferencedProjects3
+      apiKey: YOUR_API_KEY_HERE
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
-      continueOnEmptyNupkgMatch: false
+      skipDuplicate: false
