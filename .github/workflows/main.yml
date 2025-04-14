@@ -6,7 +6,7 @@ on:
 
 jobs:
   run-nuget:
-    uses: ./.github/workflows/nuget-reusable.yml
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       solution: 'MyApp.sln'
       nugetConfigPath: './NuGet.config'
