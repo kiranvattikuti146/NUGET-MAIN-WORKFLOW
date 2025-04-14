@@ -9,6 +9,7 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
+      # Restore Inputs
       solution: OrchardCore.sln
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
@@ -20,7 +21,7 @@ jobs:
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
-      searchPattern: src/docs/OrchardCore.Docs.csproj 
+      searchPattern: src/docs/OrchardCore.Docs.csproj # Corrected path to match your project structure
       outputdir: ./nupkgs
       includeSymbols: true
       versionByBuild: false
