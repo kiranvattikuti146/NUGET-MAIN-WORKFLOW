@@ -9,7 +9,7 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: MyApp.sln
+      solution: ./MyApp.sln  # Ensure the correct path to your solution file
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
       verbosity: detailed
@@ -20,7 +20,7 @@ jobs:
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
-      searchPattern: MyProject.csproj
+      searchPattern: ./MyProject.csproj  # Ensure the correct path to your project file
       outputdir: ./nupkgs
       includeReferencedProjects: true
       versionByBuild: false
@@ -34,6 +34,5 @@ jobs:
 
       # Publisher Inputs
       nuGetFeedType: internal
-      connectedServiceName: AzureArtifactsConnection
-      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      connectedServiceName: includeReferencedProjects3      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       continueOnEmptyNupkgMatch: false
