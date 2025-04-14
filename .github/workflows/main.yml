@@ -1,31 +1,40 @@
-name: Main Workflow
+name: NuGet Main Workflow
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  nuget-build:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+  run-nuget:
+    uses: ./.github/workflows/nuget-reusable.yml
     with:
-      solution: 'path/to/solution.sln'
-      nugetConfigPath: 'path/to/nuget.config'
+      solution: 'MyApp.sln'
+      nugetConfigPath: './NuGet.config'
       restoreMode: 'restore'
       noCache: true
-      nuGetRestoreArgs: '--force'
+      nuGetRestoreArgs: ''
       verbosity: 'detailed'
-      nuGetVersion: 'latest'
-      nuGetPath: '/home/runner/work/_temp'
-      searchPattern: '**/*.csproj'
-      outputdir: 'path/to/output'
+      nuGetVersion: '6.8.0'
+      nuGetPath: 'C:/tools/nuget'
+
+      selectorConfig: 'Release'
+      feed: 'https://api.nuget.org/v3/index.json'
+      includeNuGetOrg: true
+      packagesDirectory: './packages'
+
+      searchPattern: './MyApp/MyApp.csproj'
+      outputdir: './nuget_packages'
+      includeReferencedProjects: true
       versionByBuild: true
       versionEnvVar: 'BUILD_VERSION'
+      requestedMajorVersion: '1'
+      requestedMinorVersion: '0'
+      requestedPatchVersion: '3'
       configurationToPack: 'Release'
-      buildProperties: 'Configuration=Release'
-      nuGetAdditionalArgs: '--include-symbols'
-      nuGetFeedType: 'internal'
-      feedName: 'MyNuGetFeed'
+      buildProperties: 'Platform=AnyCPU'
+      nuGetAdditionalArgs: ''
+
+      nuGetFeedType: 'external'
+      connectedServiceName: 'MyNuGetService'
+      feedName: 'https://api.nuget.org/v3/index.json'
+      continueOnEmptyNupkgMatch: false
