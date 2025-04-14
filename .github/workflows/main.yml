@@ -9,7 +9,7 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: OrchardCore.sln  # Updated solution file name
+      solution: OrchardCore.sln
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
       verbosity: detailed
@@ -20,12 +20,12 @@ jobs:
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
-      searchPattern: MyProject.csproj  # Ensure the correct path to your project file
+      searchPattern: MyProject.csproj
       outputdir: ./nupkgs
-      includeReferencedProjects: true
+      includeReferencedProjects: true   # Added missing input
       versionByBuild: false
       versionEnvVar: ""
-      requestedMajorVersion: 1
+      requestedMajorVersion: 1      # Added missing input
       requestedMinorVersion: 0
       requestedPatchVersion: 0
       configurationToPack: Release
