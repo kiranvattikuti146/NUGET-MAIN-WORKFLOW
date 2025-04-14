@@ -16,7 +16,7 @@ jobs:
       nuGetRestoreArgs: ""
       restoreMode: restore
       noCache: true
-      nuGetVersion: 6.13.2.1
+      nuGetVersion: 6.13.2
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
