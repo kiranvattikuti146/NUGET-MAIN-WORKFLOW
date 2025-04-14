@@ -8,13 +8,13 @@ jobs:
   run-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: 'MyApp.sln'
+      solution: 'MyRealApp.sln'
       nugetConfigPath: './NuGet.config'
       restoreMode: 'restore'
-      noCache: true
+      noCache: false
       nuGetRestoreArgs: ''
       verbosity: 'detailed'
-      nuGetVersion: '6.8.0'
+      nuGetVersion: '6.13.2.1'
       nuGetPath: 'C:/tools/nuget'
 
       selectorConfig: 'Release'
