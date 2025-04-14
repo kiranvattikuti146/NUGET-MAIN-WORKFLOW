@@ -9,7 +9,7 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: MyRealApp.sln
+      solution: MyApp.sln
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
       verbosity: detailed
