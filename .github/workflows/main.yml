@@ -9,7 +9,7 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: ./MyApp.sln  # Ensure the correct path to your solution file
+      solution: OrchardCore.sln  # Updated solution file name
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
       verbosity: detailed
@@ -20,7 +20,7 @@ jobs:
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
-      searchPattern: ./MyProject.csproj  # Ensure the correct path to your project file
+      searchPattern: MyProject.csproj  # Ensure the correct path to your project file
       outputdir: ./nupkgs
       includeReferencedProjects: true
       versionByBuild: false
@@ -34,6 +34,6 @@ jobs:
 
       # Publisher Inputs
       nuGetFeedType: internal
-      connectedServiceName: includeReferencedProjects3      
+      connectedServiceName: includeReferencedProjects3
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       continueOnEmptyNupkgMatch: false
