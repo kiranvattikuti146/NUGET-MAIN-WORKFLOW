@@ -23,4 +23,17 @@ jobs:
       searchPattern: MyProject.csproj
       outputdir: ./nupkgs
       includeReferencedProjects: true
-      versionBy
+      versionByBuild: false
+      versionEnvVar: ""
+      requestedMajorVersion: 1
+      requestedMinorVersion: 0
+      requestedPatchVersion: 0
+      configurationToPack: Release
+      buildProperties: Platform=AnyCPU
+      nuGetAdditionalArgs: ""
+
+      # Publisher Inputs
+      nuGetFeedType: internal
+      connectedServiceName: AzureArtifactsConnection
+      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      continueOnEmptyNupkgMatch: false
