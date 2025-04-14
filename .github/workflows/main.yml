@@ -9,12 +9,32 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
+      # Restore Inputs
       solution: OrchardCore.sln
+      nugetConfigPath: ./NuGet.config
+      packagesDirectory: ./packages
+      verbosity: detailed
+      nuGetRestoreArgs: ""
+      restoreMode: restore
+      noCache: true
+      nuGetVersion: 6.13.2
+      nuGetPath: ./nuget.exe
+
+      # Packager Inputs
       searchPattern: src/docs/OrchardCore.Docs.csproj
-      configurationToPack: Release
       outputdir: ./nupkgs
+      includeSymbols: true
+      versionByBuild: false
+      versionEnvVar: ""
       majorVersion: 1
       minorVersion: 0
       patchVersion: 0
+      configurationToPack: Release
+      buildProperties: Platform=AnyCPU
+      nuGetAdditionalArgs: ""
+
+      # Publisher Inputs
+      nuGetFeedType: internal
       apiKey: YOUR_API_KEY_HERE
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      skipDuplicate: false
