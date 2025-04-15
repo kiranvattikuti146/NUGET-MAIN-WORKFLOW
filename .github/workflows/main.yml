@@ -39,4 +39,4 @@ jobs:
       skipDuplicate: false
 
     secrets:
-      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
+      MY_TOKEN: ${{ secrets.MY_TOKEN }}
