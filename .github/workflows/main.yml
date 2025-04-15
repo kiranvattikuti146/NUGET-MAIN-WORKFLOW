@@ -35,8 +35,8 @@ jobs:
 
       # Publisher Inputs
       nuGetFeedType: internal
-      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      feedName: https://nuget.pkg.github.com/<your-github-username>/index.json
       skipDuplicate: false
 
     secrets:
-      MY_TOKEN: ${{ secrets.MY_TOKEN }}
+       MY_TOKEN: ${{ secrets.MY_TOKEN }}
