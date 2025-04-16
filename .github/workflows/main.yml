@@ -35,8 +35,7 @@ jobs:
 
       # Publisher Inputs
       nuGetFeedType: internal
-      feedName: https://nuget.pkg.github.com/<your-github-username>/index.json
-      skipDuplicate: True
+      feedName: https://nuget.pkg.github.com/kirandevops1993/index.json
 
     secrets:
       apiKey: ${{ secrets.MY_TOKEN }}
