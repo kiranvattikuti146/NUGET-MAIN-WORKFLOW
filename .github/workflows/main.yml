@@ -38,4 +38,4 @@ jobs:
       feedName: https://nuget.pkg.github.com/kirandevops1993/index.json
 
     secrets:
-      apiKey: ${{ secrets.MY_TOKEN }}
+      apiKey: ${{ secrets.DEMO_CHECK }}
