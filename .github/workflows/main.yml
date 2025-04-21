@@ -1,5 +1,4 @@
 name: Main NuGet Workflow
-
 on:
   push:
     branches:
@@ -39,4 +38,4 @@ jobs:
       skipDuplicate: false
 
     secrets:
-      apiKey: ${{ secrets.AZURE-DEVOPS-PAT }}
+      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
