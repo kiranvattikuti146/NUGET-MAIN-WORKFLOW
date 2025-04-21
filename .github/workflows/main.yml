@@ -9,7 +9,6 @@ jobs:
   call-reusable-nuget:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      # Restore Inputs
       solution: OrchardCore.sln
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
@@ -21,7 +20,7 @@ jobs:
       nuGetPath: ./nuget.exe
 
       # Packager Inputs
-      searchPattern: src/docs/OrchardCore.Docs.csproj
+      searchPattern: MyProject.csproj
       outputdir: ./nupkgs
       includeSymbols: true
       versionByBuild: false
@@ -30,13 +29,11 @@ jobs:
       minorVersion: 0
       patchVersion: 0
       configurationToPack: Release
-      buildProperties: Platform="Any CPU"
+      buildProperties: Platform=AnyCPU
       nuGetAdditionalArgs: ""
 
       # Publisher Inputs
       nuGetFeedType: internal
-      feedName: https://nuget.pkg.github.com/kirandevops1993/index.json
-      skipDuplicate: true  # Added this input to resolve the error
-
-    secrets:
-      apiKey: ${{ secrets.DEMO_CHECK }}
+      apiKey: YOUR_API_KEY_HERE
+      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      skipDuplicate: false
