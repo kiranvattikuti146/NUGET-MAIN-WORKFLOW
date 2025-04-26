@@ -61,3 +61,4 @@ jobs:
       msbuildArchitecture: x86
       logProjectEvents: true
       createLogFile: false
+      logFileVerbosity: "detailed"
