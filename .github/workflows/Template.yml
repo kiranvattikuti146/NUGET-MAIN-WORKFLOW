@@ -68,6 +68,6 @@ jobs:
     needs: build-solution 
     uses: kirandevops1993/POWERSHELL-REUSABLE/.github/workflows/powershellreusable.yml@main 
     with: 
-      script-path:  "C:\Users\2000150087\Desktop\kiran.ps1"
+      script-path:  ".github/workflows/Get-HostName.ps1"
       script-arguments: ""   
       inline-script: ""      
