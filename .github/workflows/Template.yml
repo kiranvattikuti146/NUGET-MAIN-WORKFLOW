@@ -1,0 +1,63 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nuget-restore:
+    name: NuGet Restore
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    with:
+      command: custom
+      solution: "**/*.sln"
+      selectOrConfig: select
+      feedRestore: ""
+      includeNuGetOrg: true
+      nugetConfigPath: ""
+      externalEndpoints: ""
+      noCache: false
+      packagesDirectory: ""
+      verbosityRestore: Detailed
+      searchPatternPush: "$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg"
+      nuGetFeedType: internal
+      feedPublish: ""
+      allowPackageConflicts: false
+      externalEndpoint: ""
+      verbosityPush: Detailed
+      searchPatternPack: "**/*.csproj"
+      configurationToPack: "$(BuildConfiguration)"
+      outputDir: "$(Build.ArtifactStagingDirectory)"
+      versioningScheme: off
+      includeReferencedProjects: false
+      versionEnvVar: ""
+      requestedMajorVersion: 1
+      requestedMinorVersion: 0
+      requestedPatchVersion: 0
+      packTimezone: utc
+      includeSymbols: false
+      toolPackage: false
+      buildProperties: ""
+      verbosityPack: Detailed
+      arguments: "restore -SolutionDirectory $(Build.SourcesDirectory)"
+
+  build-solution:
+    name: Build Solution
+    needs: nuget-restore
+    uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
+    with:
+      solution: UMB.ACHRisk.sln
+      vsVersion: latest
+      msbuildArgs: "/p:OutDir=$(build.stagingDirectory) /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$(udClientLocation)"
+      platform: "$(BuildPlatform)"
+      configuration: "$(BuildConfiguration)"
+      clean: true
+      maximumCpuCount: false
+      restoreNugetPackages: false
+      msbuildArchitecture: x86
+      logProjectEvents: true
+      createLogFile: false
