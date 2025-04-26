@@ -44,6 +44,7 @@ jobs:
       buildProperties: "" 
       verbosityPack: Detailed 
       arguments: "restore -SolutionDirectory $(Build.SourcesDirectory)" 
+      nuGetRestoreArgs: " "
 
   build-solution: 
     name: Build Solution 
@@ -62,6 +63,7 @@ jobs:
       logProjectEvents: true 
       createLogFile: false 
       logFileVerbosity: "detailed" 
+      verbosity : "detailed"
 
   run-powershell-script: 
     name: Run PowerShell Script 
