@@ -50,7 +50,7 @@ jobs:
     needs: nuget-restore
     uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
     with:
-      solution: UMB.ACHRisk.sln
+      solution: .sln
       vsVersion: latest
       msbuildArgs: "/p:OutDir=$(build.stagingDirectory) /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$(udClientLocation)"
       platform: "$(BuildPlatform)"
