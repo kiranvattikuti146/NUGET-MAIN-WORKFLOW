@@ -46,7 +46,9 @@ jobs:
       arguments: "restore -SolutionDirectory $(Build.SourcesDirectory)" 
       nuGetRestoreArgs: " "
       verbosity : "true"
-      restore mode : "true"
+      restoremode : "true"
+      nuGetVersion : "true"
+      
 
   build-solution: 
     name: Build Solution 
