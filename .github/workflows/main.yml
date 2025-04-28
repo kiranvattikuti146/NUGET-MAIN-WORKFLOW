@@ -5,6 +5,15 @@ on:
       - main
 jobs:
   dotnet-tasks:
+    uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
+    with:
+      command: ${{ matrix.task.command }}
+      projects: ${{ matrix.task.projects }}
+      arguments: ${{ matrix.task.arguments || '' }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
+      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
+      configuration: ${{ matrix.task.configuration || '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
     strategy:
       matrix:
         task:
@@ -22,12 +31,3 @@ jobs:
             configuration: 'Release'
           - command: push
             packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    uses: ./.github/workflows/dotnetreusable.yml
-    with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
-      arguments: ${{ matrix.task.arguments || '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
-      configuration: ${{ matrix.task.configuration || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
