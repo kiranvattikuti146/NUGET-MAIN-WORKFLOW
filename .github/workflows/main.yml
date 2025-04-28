@@ -16,7 +16,8 @@ jobs:
             arguments: '--configuration Release'
           - command: test
             projects: '**/*.csproj'
-            arguments: '--collect "Code coverage"
+            arguments: '--collect "Code coverage"'
+          - command: pack
             packagesToPack: '**/*.csproj'
             configuration: 'Release'
           - command: push
@@ -24,7 +25,7 @@ jobs:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     with:
       command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects || '' }}
+      projects: ${{ matrix.task.projects }}
       arguments: ${{ matrix.task.arguments || '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
       packagesToPack: ${{ matrix.task.packagesToPack || '' }}
