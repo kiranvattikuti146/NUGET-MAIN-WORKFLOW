@@ -10,7 +10,6 @@ jobs:
         task:
           - command: restore
             projects: '**/*.csproj'
-            feedsToUse: config
             nugetConfigPath: 'NuGet.config'
           - command: build
             projects: '**/*.csproj'
@@ -23,15 +22,12 @@ jobs:
             configuration: 'Release'
           - command: push
             packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-            nuGetFeedType: external
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     with:
       command: ${{ matrix.task.command }}
       projects: ${{ matrix.task.projects || '' }}
       arguments: ${{ matrix.task.arguments || '' }}
-      feedsToUse: ${{ matrix.task.feedsToUse || '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
       packagesToPack: ${{ matrix.task.packagesToPack || '' }}
       configuration: ${{ matrix.task.configuration || '' }}
       packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-      nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
