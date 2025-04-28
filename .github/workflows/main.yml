@@ -1,33 +1,14 @@
 name: Main Workflow
+
 on:
-  push:
+  pull_request:
     branches:
       - main
+
 jobs:
   dotnet-tasks:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
-      arguments: ${{ matrix.task.arguments || '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
-      configuration: ${{ matrix.task.configuration || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-    strategy:
-      matrix:
-        task:
-          - command: restore
-            projects: '**/*.csproj'
-            nugetConfigPath: 'NuGet.config'
-          - command: build
-            projects: '**/*.csproj'
-            arguments: '--configuration Release'
-          - command: test
-            projects: '**/*.csproj'
-            arguments: '--collect "Code coverage"'
-          - command: pack
-            packagesToPack: '**/*.csproj'
-            configuration: 'Release'
-          - command: push
-            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      commands: |
+        restore
+        build
