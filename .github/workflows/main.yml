@@ -16,8 +16,7 @@ jobs:
             arguments: '--configuration Release'
           - command: test
             projects: '**/*.csproj'
-            arguments: '--collect "Code coverage"'
-          - command: pack
+            arguments: '--collect "Code coverage"
             packagesToPack: '**/*.csproj'
             configuration: 'Release'
           - command: push
