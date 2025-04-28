@@ -1,33 +1,63 @@
 name: Main Workflow
+
 on:
   push:
     branches:
       - main
+
 jobs:
   dotnet-tasks:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     with:
       command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
+      projects: ${{ matrix.task.projects || '' }}
       arguments: ${{ matrix.task.arguments || '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
       packagesToPack: ${{ matrix.task.packagesToPack || '' }}
       configuration: ${{ matrix.task.configuration || '' }}
       packagesToPush: ${{ matrix.task.packagesToPush || '' }}
+      custom: ${{ matrix.task.custom || '' }}
+      restoreArguments: ${{ matrix.task.restoreArguments || '' }}
+      testRunTitle: ${{ matrix.task.testRunTitle || '' }}
+      modifyOutputPath: ${{ matrix.task.modifyOutputPath || '' }}
+      packDirectory: ${{ matrix.task.packDirectory || '' }}
+      nobuild: ${{ matrix.task.nobuild || false }}
+      includesymbols: ${{ matrix.task.includesymbols || false }}
+      includesource: ${{ matrix.task.includesource || false }}
+      requestTimeout: ${{ matrix.task.requestTimeout || '' }}
+      noCache: ${{ matrix.task.noCache || false }}
+      restoreDirectory: ${{ matrix.task.restoreDirectory || '' }}
+      verbosityRestore: ${{ matrix.task.verbosityRestore || '' }}
+      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata || false }}
+      versioningScheme: ${{ matrix.task.versioningScheme || '' }}
+      versionEnvVar: ${{ matrix.task.versionEnvVar || '' }}
+      majorVersion: ${{ matrix.task.majorVersion || '' }}
+      minorVersion: ${{ matrix.task.minorVersion || '' }}
+      patchVersion: ${{ matrix.task.patchVersion || '' }}
+      buildProperties: ${{ matrix.task.buildProperties || '' }}
+      verbosityPack: ${{ matrix.task.verbosityPack || '' }}
+      workingDirectory: ${{ matrix.task.workingDirectory || '' }}
     strategy:
       matrix:
         task:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
+            verbosityRestore: 'normal'
+            restoreDirectory: './packages'
           - command: build
             projects: '**/*.csproj'
             arguments: '--configuration Release'
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
+            testRunTitle: 'TestResults'
           - command: pack
             packagesToPack: '**/*.csproj'
             configuration: 'Release'
+            packDirectory: './nupkgs'
+            includesymbols: true
+            includesource: true
           - command: push
-            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+            packagesToPush: './nupkgs/*.nupkg'
+            requestTimeout: '300'
