@@ -27,11 +27,11 @@ jobs:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     with:
       command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects || '' }}
-      arguments: ${{ matrix.task.arguments || '' }}
-      feedsToUse: ${{ matrix.task.feedsToUse || '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
-      configuration: ${{ matrix.task.configuration || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-      nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
+      projects: ${{ matrix.task.projects }}
+      arguments: ${{ matrix.task.arguments }}
+      feedsToUse: ${{ matrix.task.feedsToUse }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath }}
+      packagesToPack: ${{ matrix.task.packagesToPack }}
+      configuration: ${{ matrix.task.configuration }}
+      packagesToPush: ${{ matrix.task.packagesToPush }}
+      nuGetFeedType: ${{ matrix.task.nuGetFeedType }}
