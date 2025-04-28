@@ -22,7 +22,7 @@ jobs:
             configuration: 'Release'
           - command: push
             packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
+    uses: ./.github/workflows/dotnetreusable.yml
     with:
       command: ${{ matrix.task.command }}
       projects: ${{ matrix.task.projects }}
