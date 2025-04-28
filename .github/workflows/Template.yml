@@ -11,7 +11,7 @@ on:
 jobs:
   nuget-restore:
     name: NuGet Restore
-    uses: kirandevops1993/NUGET-REUSABLE/.github/workflows/nuget-reusable.yml@main
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       solution: "**/*.sln"
       nugetConfigPath: ""
