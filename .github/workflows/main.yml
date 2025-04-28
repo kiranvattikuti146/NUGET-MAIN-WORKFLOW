@@ -13,47 +13,38 @@ jobs:
       projects: ${{ matrix.task.projects || '' }}
       arguments: ${{ matrix.task.arguments || '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
       configuration: ${{ matrix.task.configuration || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-      custom: ${{ matrix.task.custom || '' }}
       restoreArguments: ${{ matrix.task.restoreArguments || '' }}
-      testRunTitle: ${{ matrix.task.testRunTitle || '' }}
-      modifyOutputPath: ${{ matrix.task.modifyOutputPath || '' }}
-      packDirectory: ${{ matrix.task.packDirectory || '' }}
-      nobuild: ${{ matrix.task.nobuild || false }}
-      includesymbols: ${{ matrix.task.includesymbols || false }}
-      includesource: ${{ matrix.task.includesource || false }}
-      requestTimeout: ${{ matrix.task.requestTimeout || '' }}
-      noCache: ${{ matrix.task.noCache || false }}
       restoreDirectory: ${{ matrix.task.restoreDirectory || '' }}
       verbosityRestore: ${{ matrix.task.verbosityRestore || '' }}
-      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata || false }}
-      versioningScheme: ${{ matrix.task.versioningScheme || '' }}
-      versionEnvVar: ${{ matrix.task.versionEnvVar || '' }}
-      majorVersion: ${{ matrix.task.majorVersion || '' }}
-      minorVersion: ${{ matrix.task.minorVersion || '' }}
-      patchVersion: ${{ matrix.task.patchVersion || '' }}
       buildProperties: ${{ matrix.task.buildProperties || '' }}
       verbosityPack: ${{ matrix.task.verbosityPack || '' }}
       workingDirectory: ${{ matrix.task.workingDirectory || '' }}
+      packDirectory: ${{ matrix.task.packDirectory || '' }}
+      includesymbols: ${{ matrix.task.includesymbols || false }}
+      includesource: ${{ matrix.task.includesource || false }}
+      testRunTitle: ${{ matrix.task.testRunTitle || '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
+      requestTimeout: ${{ matrix.task.requestTimeout || '' }}
+      noCache: ${{ matrix.task.noCache || false }}
     strategy:
       matrix:
         task:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
-            verbosityRestore: 'normal'
+            restoreArguments: ''
             restoreDirectory: './packages'
+            verbosityRestore: 'minimal'
           - command: build
             projects: '**/*.csproj'
             arguments: '--configuration Release'
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
-            testRunTitle: 'TestResults'
+            testRunTitle: 'UnitTestResults'
           - command: pack
-            packagesToPack: '**/*.csproj'
+            projects: '**/*.csproj'
             configuration: 'Release'
             packDirectory: './nupkgs'
             includesymbols: true
