@@ -35,35 +35,3 @@ jobs:
       configuration: ${{ matrix.task.configuration || '' }}
       packagesToPush: ${{ matrix.task.packagesToPush || '' }}
       nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET SDK 9.0.201
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.201'
-
-      - name: Run dotnet ${{ inputs.command }}
-        run: |
-          CMD="${{ inputs.command }}"
-          
-          if [ "$CMD" = "restore" ]; then
-            dotnet restore "${{ inputs.projects }}" --configfile "${{ inputs.nugetConfigPath }}"
-
-          elif [ "$CMD" = "build" ]; then
-            dotnet build "${{ inputs.projects }}" ${{ inputs.arguments }}
-          
-          elif [ "$CMD" = "test" ]; then
-            dotnet test "${{ inputs.projects }}" ${{ inputs.arguments }} --logger trx
-          
-          elif [ "$CMD" = "pack" ]; then
-            dotnet pack ${{ inputs.packagesToPack }} --configuration ${{ inputs.configuration }} -o ./nupkgs
-          
-          elif [ "$CMD" = "push" ]; then
-            dotnet nuget push "${{ inputs.packagesToPush }}" --source "https://api.nuget.org/v3/index.json"
-          
-          else
-            echo "Unsupported command: $CMD"
-            exit 1
-          fi
