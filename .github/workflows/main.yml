@@ -7,87 +7,38 @@ on:
 
 jobs:
   dotnet-tasks:
-    uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
     strategy:
       matrix:
         task:
           - command: restore
             projects: '**/*.csproj'
+            feedsToUse: config
             nugetConfigPath: 'NuGet.config'
-            restoreArguments: '--disable-parallel'
-            noCache: 'false'
-            restoreDirectory: ''
-            verbosityRestore: 'normal'
-            custom: '--custom-argument'
-            arguments: ''
-            configuration: ''
-            packagesToPush: ''
-            workingDirectory: '.'
 
           - command: build
             projects: '**/*.csproj'
             arguments: '--configuration Release'
-            buildProperties: ''
-            custom: '--custom-argument'
-            workingDirectory: '.'
 
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
-            testRunTitle: 'Test Run'
-            nobuild: ''
-            custom: '--test-custom'
-            workingDirectory: '.'
 
           - command: pack
-            projects: '**/*.csproj'
+            packagesToPack: '**/*.csproj'
             configuration: 'Release'
-            packDirectory: './nupkgs'
-            modifyOutputPath: ''
-            includesymbols: 'true'
-            includesource: 'true'
-            versioningScheme: ''
-            versionEnvVar: ''
-            majorVersion: '1'
-            minorVersion: '0'
-            patchVersion: '0'
-            verbosityPack: 'minimal'
-            custom: '--pack-custom'
-            workingDirectory: '.'
 
           - command: push
-            projects: ''
-            packagesToPush: './nupkgs/*.nupkg'
-            requestTimeout: '300'
-            publishPackageMetadata: 'true'
-            custom: '--push-custom'
-            workingDirectory: '.'
+            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+            nuGetFeedType: external
 
+    uses: kirandevops1993/DOTNETCORECLI-REUSABLES/.github/workflows/dotnetreusables.yml@main
     with:
       command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
-      arguments: ${{ matrix.task.arguments }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath }}
-      configuration: ${{ matrix.task.configuration }}
-      packagesToPush: ${{ matrix.task.packagesToPush }}
-      custom: ${{ matrix.task.custom }}
-      restoreArguments: ${{ matrix.task.restoreArguments }}
-      testRunTitle: ${{ matrix.task.testRunTitle }}
-      modifyOutputPath: ${{ matrix.task.modifyOutputPath }}
-      packDirectory: ${{ matrix.task.packDirectory }}
-      nobuild: ${{ matrix.task.nobuild }}
-      includesymbols: ${{ matrix.task.includesymbols }}
-      includesource: ${{ matrix.task.includesource }}
-      requestTimeout: ${{ matrix.task.requestTimeout }}
-      noCache: ${{ matrix.task.noCache }}
-      restoreDirectory: ${{ matrix.task.restoreDirectory }}
-      verbosityRestore: ${{ matrix.task.verbosityRestore }}
-      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata }}
-      versioningScheme: ${{ matrix.task.versioningScheme }}
-      versionEnvVar: ${{ matrix.task.versionEnvVar }}
-      majorVersion: ${{ matrix.task.majorVersion }}
-      minorVersion: ${{ matrix.task.minorVersion }}
-      patchVersion: ${{ matrix.task.patchVersion }}
-      buildProperties: ${{ matrix.task.buildProperties }}
-      verbosityPack: ${{ matrix.task.verbosityPack }}
-      workingDirectory: ${{ matrix.task.workingDirectory }}
+      projects: ${{ matrix.task.projects || '' }}
+      arguments: ${{ matrix.task.arguments || '' }}
+      feedsToUse: ${{ matrix.task.feedsToUse || '' }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
+      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
+      configuration: ${{ matrix.task.configuration || '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
+      nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
