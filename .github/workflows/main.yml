@@ -14,3 +14,4 @@ jobs:
       nugetConfigPath: ''
       packagesToPack: '**/*.csproj'
       configuration: 'Release'
+      nuGetFeedType: ''  # <-- THIS IS IMPORTANT to avoid "command is required" error
