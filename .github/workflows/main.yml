@@ -1,4 +1,5 @@
 name: Main NuGet Workflow
+
 on:
   push:
     branches:
@@ -31,11 +32,24 @@ jobs:
       configurationToPack: Release
       buildProperties: Platform="Any CPU"
       nuGetAdditionalArgs: ""
+      packagesToPack: ""
+      versioningScheme: ""
+      includeReferencedProjects: false
+      packTimezone: ""
+      toolPackage: false
+      basePath: ""
+      verbosityPack: ""
 
       # Publisher Inputs
       nuGetFeedType: internal
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       skipDuplicate: false
+
+      # Custom Command Inputs
+      arguments: ""
+
+      # Command (unified)
+      command: pack
 
     secrets:
       apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
