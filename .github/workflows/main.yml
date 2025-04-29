@@ -1,65 +1,41 @@
-name: Main Workflow
-
+name: Main NuGet Workflow
 on:
   push:
     branches:
       - main
 
 jobs:
-  dotnet-tasks:
-    strategy:
-      matrix:
-        task:
-          - command: restore
-            projects: '**/*.csproj'
-            feedsToUse: config
-            nugetConfigPath: 'NuGet.config'
-
-          - command: build
-            projects: '**/*.csproj'
-            arguments: '--configuration Release'
-
-          - command: test
-            projects: '**/*.csproj'
-            arguments: '--collect "Code coverage"'
-
-          - command: pack
-            packagesToPack: '**/*.csproj'
-            configuration: 'Release'
-
-          - command: push
-            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-            nuGetFeedType: external
-
-    uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
+  call-reusable-nuget:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects || '' }}
-      arguments: ${{ matrix.task.arguments || '' }}
-      feedsToUse: ${{ matrix.task.feedsToUse || '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
-      configuration: ${{ matrix.task.configuration || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-      nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
-      custom: 'true'
-      restoreArguments: '--interactive'
-      testRunTitle: 'CI Test Run'
-      modifyOutputPath: 'true'
-      packDirectory: './custom_pack'
-      nobuild: 'true'
-      includesymbols: 'true'
-      includesource: 'true'
-      requestTimeout: '180'
-      noCache: 'true'
-      restoreDirectory: './restoredir'
-      verbosityRestore: 'minimal'
-      publishPackageMetadata: 'true'
-      versioningScheme: 'byPrereleaseNumber'
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      buildProperties: 'CommitId=abc123'
-      verbosityPack: 'detailed'
-      workingDirectory: './src'
+      # Restore Inputs
+      solution: OrchardCore.sln
+      nugetConfigPath: ./NuGet.config
+      packagesDirectory: ./packages
+      verbosity: detailed
+      nuGetRestoreArgs: ""
+      restoreMode: restore
+      noCache: true
+      nuGetVersion: 6.13.2
+      nuGetPath: ./nuget.exe
+
+      # Packager Inputs
+      searchPattern: src/docs/OrchardCore.Docs.csproj
+      outputdir: ./nupkgs
+      includeSymbols: true
+      versionByBuild: false
+      versionEnvVar: ""
+      majorVersion: 1
+      minorVersion: 0
+      patchVersion: 0
+      configurationToPack: Release
+      buildProperties: Platform="Any CPU"
+      nuGetAdditionalArgs: ""
+
+      # Publisher Inputs
+      nuGetFeedType: internal
+      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      skipDuplicate: false
+
+    secrets:
+      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
