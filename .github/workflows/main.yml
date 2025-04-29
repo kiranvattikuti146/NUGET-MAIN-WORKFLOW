@@ -14,11 +14,11 @@ jobs:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
-            restoreArguments: ''
+            restoreArguments: '--disable-parallel'
             noCache: 'false'
             restoreDirectory: ''
             verbosityRestore: 'normal'
-            custom: ''
+            custom: '--custom-argument'
             arguments: ''
             configuration: ''
             packagesToPush: ''
@@ -28,15 +28,15 @@ jobs:
             projects: '**/*.csproj'
             arguments: '--configuration Release'
             buildProperties: ''
-            custom: ''
+            custom: '--custom-argument'
             workingDirectory: '.'
 
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
-            testRunTitle: ''
+            testRunTitle: 'Test Run'
             nobuild: ''
-            custom: ''
+            custom: '--test-custom'
             workingDirectory: '.'
 
           - command: pack
@@ -52,7 +52,7 @@ jobs:
             minorVersion: '0'
             patchVersion: '0'
             verbosityPack: 'minimal'
-            custom: ''
+            custom: '--pack-custom'
             workingDirectory: '.'
 
           - command: push
@@ -60,7 +60,7 @@ jobs:
             packagesToPush: './nupkgs/*.nupkg'
             requestTimeout: '300'
             publishPackageMetadata: 'true'
-            custom: ''
+            custom: '--push-custom'
             workingDirectory: '.'
 
     with:
