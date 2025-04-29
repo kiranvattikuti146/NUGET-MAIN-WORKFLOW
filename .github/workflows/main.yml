@@ -1,4 +1,4 @@
-name: Main WorkfloW
+name: .NET Main Workflow
 
 on:
   push:
@@ -6,50 +6,11 @@ on:
       - main
 
 jobs:
-  dotnet-tasks:
+  dotnet-build-test-pack:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
-    strategy:
-      matrix:
-        task:
-          - command: restore
-            projects: '**/*.csproj'
-            nugetConfigPath: 'NuGet.config'
-            arguments: ''
-            configuration: ''
-            packagesToPush: ''
-
-          - command: build
-            projects: '**/*.csproj'
-            nugetConfigPath: ''
-            arguments: '--configuration Release'
-            configuration: ''
-            packagesToPush: ''
-
-          - command: test
-            projects: '**/*.csproj'
-            nugetConfigPath: ''
-            arguments: '--collect "Code coverage"'
-            configuration: ''
-            packagesToPush: ''
-
-          - command: pack
-            projects: '**/*.csproj'
-            nugetConfigPath: ''
-            arguments: ''
-            configuration: 'Release'
-            packagesToPush: ''
-
-          - command: push
-            projects: ''
-            nugetConfigPath: ''
-            arguments: ''
-            configuration: ''
-            packagesToPush: './nupkgs/*.nupkg'
-
     with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
-      arguments: ${{ matrix.task.arguments }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath }}
-      configuration: ${{ matrix.task.configuration }}
-      packagesToPush: ${{ matrix.task.packagesToPush }}
+      projects: '**/*.csproj'
+      arguments: ''
+      nugetConfigPath: ''
+      packagesToPack: '**/*.csproj'
+      configuration: 'Release'
