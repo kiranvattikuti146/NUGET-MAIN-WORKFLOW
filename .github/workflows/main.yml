@@ -8,30 +8,12 @@ on:
 jobs:
   dotnet-tasks:
     uses: kirandevops1993/DOTNETCORECLI-REUSABLE/.github/workflows/dotnetreusable.yml@main
-    with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects }}
-      arguments: ${{ matrix.task.arguments || '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
-      configuration: ${{ matrix.task.configuration || '' }}
-      verbosityRestore: ${{ matrix.task.verbosityRestore || '' }}
-      buildProperties: ${{ matrix.task.buildProperties || '' }}
-      verbosityPack: ${{ matrix.task.verbosityPack || '' }}
-      workingDirectory: ${{ matrix.task.workingDirectory || '' }}
-      packDirectory: ${{ matrix.task.packDirectory || '' }}
-      includesymbols: ${{ matrix.task.includesymbols || false }}
-      includesource: ${{ matrix.task.includesource || false }}
-      testRunTitle: ${{ matrix.task.testRunTitle || '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
-      requestTimeout: ${{ matrix.task.requestTimeout || '' }}
-      noCache: ${{ matrix.task.noCache || false }}
     strategy:
       matrix:
         task:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
-            verbosityRestore: 'minimal'
 
           - command: build
             projects: '**/*.csproj'
@@ -40,15 +22,20 @@ jobs:
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
-            testRunTitle: 'UnitTestResults'
 
           - command: pack
             projects: '**/*.csproj'
             configuration: 'Release'
             packDirectory: './nupkgs'
-            includesymbols: true
-            includesource: true
 
           - command: push
             packagesToPush: './nupkgs/*.nupkg'
-            requestTimeout: '300'
+
+    with:
+      command: ${{ matrix.task.command }}
+      projects: ${{ matrix.task.projects || '' }}
+      arguments: ${{ matrix.task.arguments || '' }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
+      configuration: ${{ matrix.task.configuration || '' }}
+      packDirectory: ${{ matrix.task.packDirectory || '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
