@@ -17,7 +17,6 @@ jobs:
             arguments: ''
             configuration: ''
             packagesToPush: ''
-            packDirectory: ''
 
           - command: build
             projects: '**/*.csproj'
@@ -25,7 +24,6 @@ jobs:
             arguments: '--configuration Release'
             configuration: ''
             packagesToPush: ''
-            packDirectory: ''
 
           - command: test
             projects: '**/*.csproj'
@@ -33,7 +31,6 @@ jobs:
             arguments: '--collect "Code coverage"'
             configuration: ''
             packagesToPush: ''
-            packDirectory: ''
 
           - command: pack
             projects: '**/*.csproj'
@@ -41,7 +38,6 @@ jobs:
             arguments: ''
             configuration: 'Release'
             packagesToPush: ''
-            packDirectory: './nupkgs'
 
           - command: push
             projects: ''
@@ -49,7 +45,6 @@ jobs:
             arguments: ''
             configuration: ''
             packagesToPush: './nupkgs/*.nupkg'
-            packDirectory: ''
 
     with:
       command: ${{ matrix.task.command }}
@@ -58,4 +53,3 @@ jobs:
       nugetConfigPath: ${{ matrix.task.nugetConfigPath }}
       configuration: ${{ matrix.task.configuration }}
       packagesToPush: ${{ matrix.task.packagesToPush }}
-      packDirectory: ${{ matrix.task.packDirectory }}
