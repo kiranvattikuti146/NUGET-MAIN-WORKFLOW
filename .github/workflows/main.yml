@@ -14,30 +14,25 @@ jobs:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
-            packDirectory: ''
             packagesToPush: ''
 
           - command: build
             projects: '**/*.csproj'
             arguments: '--configuration Release'
-            packDirectory: ''
             packagesToPush: ''
 
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
-            packDirectory: ''
             packagesToPush: ''
 
           - command: pack
             projects: '**/*.csproj'
             configuration: 'Release'
-            packDirectory: './nupkgs'
             packagesToPush: ''
 
           - command: push
             packagesToPush: './nupkgs/*.nupkg'
-            packDirectory: ''
 
     with:
       command: ${{ matrix.task.command }}
@@ -45,5 +40,4 @@ jobs:
       arguments: ${{ matrix.task.arguments || '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
       configuration: ${{ matrix.task.configuration || '' }}
-      packDirectory: ${{ matrix.task.packDirectory }}
       packagesToPush: ${{ matrix.task.packagesToPush }}
