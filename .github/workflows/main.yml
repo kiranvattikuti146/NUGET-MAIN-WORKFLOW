@@ -1,4 +1,4 @@
-name: Main WorkfloW
+name: Main Workflow
 
 on:
   push:
@@ -14,142 +14,54 @@ jobs:
           - command: restore
             projects: '**/*.csproj'
             nugetConfigPath: 'NuGet.config'
+            restoreArguments: ''
+            noCache: 'false'
+            restoreDirectory: ''
+            verbosityRestore: 'normal'
+            custom: ''
             arguments: ''
             configuration: ''
             packagesToPush: ''
-            custom: ''
-            restoreArguments: '--force'
-            testRunTitle: ''
-            modifyOutputPath: ''
-            packDirectory: ''
-            nobuild: false
-            includesymbols: false
-            includesource: false
-            requestTimeout: ''
-            noCache: true
-            restoreDirectory: './packages'
-            verbosityRestore: 'normal'
-            publishPackageMetadata: ''
-            versioningScheme: ''
-            versionEnvVar: ''
-            majorVersion: ''
-            minorVersion: ''
-            patchVersion: ''
-            buildProperties: ''
-            verbosityPack: ''
-            workingDirectory: ''
+            workingDirectory: '.'
 
           - command: build
             projects: '**/*.csproj'
-            nugetConfigPath: ''
             arguments: '--configuration Release'
-            configuration: 'Release'
-            packagesToPush: ''
-            custom: ''
-            restoreArguments: ''
-            testRunTitle: ''
-            modifyOutputPath: ''
-            packDirectory: ''
-            nobuild: false
-            includesymbols: false
-            includesource: false
-            requestTimeout: ''
-            noCache: false
-            restoreDirectory: ''
-            verbosityRestore: ''
-            publishPackageMetadata: ''
-            versioningScheme: ''
-            versionEnvVar: ''
-            majorVersion: ''
-            minorVersion: ''
-            patchVersion: ''
             buildProperties: ''
-            verbosityPack: ''
-            workingDirectory: ''
+            custom: ''
+            workingDirectory: '.'
 
           - command: test
             projects: '**/*.csproj'
-            nugetConfigPath: ''
             arguments: '--collect "Code coverage"'
-            configuration: ''
-            packagesToPush: ''
+            testRunTitle: ''
+            nobuild: ''
             custom: ''
-            restoreArguments: ''
-            testRunTitle: 'unittests'
-            modifyOutputPath: ''
-            packDirectory: ''
-            nobuild: false
-            includesymbols: false
-            includesource: false
-            requestTimeout: ''
-            noCache: false
-            restoreDirectory: ''
-            verbosityRestore: ''
-            publishPackageMetadata: ''
-            versioningScheme: ''
-            versionEnvVar: ''
-            majorVersion: ''
-            minorVersion: ''
-            patchVersion: ''
-            buildProperties: ''
-            verbosityPack: ''
-            workingDirectory: ''
+            workingDirectory: '.'
 
           - command: pack
             projects: '**/*.csproj'
-            nugetConfigPath: ''
-            arguments: ''
             configuration: 'Release'
-            packagesToPush: ''
-            custom: ''
-            restoreArguments: ''
-            testRunTitle: ''
-            modifyOutputPath: './customoutput'
             packDirectory: './nupkgs'
-            nobuild: true
-            includesymbols: true
-            includesource: true
-            requestTimeout: ''
-            noCache: false
-            restoreDirectory: ''
-            verbosityRestore: ''
-            publishPackageMetadata: ''
-            versioningScheme: 'continuous'
-            versionEnvVar: 'PACKAGE_VERSION'
+            modifyOutputPath: ''
+            includesymbols: 'true'
+            includesource: 'true'
+            versioningScheme: ''
+            versionEnvVar: ''
             majorVersion: '1'
             minorVersion: '0'
-            patchVersion: '5'
-            buildProperties: ''
-            verbosityPack: 'detailed'
-            workingDirectory: ''
+            patchVersion: '0'
+            verbosityPack: 'minimal'
+            custom: ''
+            workingDirectory: '.'
 
           - command: push
             projects: ''
-            nugetConfigPath: ''
-            arguments: ''
-            configuration: ''
             packagesToPush: './nupkgs/*.nupkg'
-            custom: ''
-            restoreArguments: ''
-            testRunTitle: ''
-            modifyOutputPath: ''
-            packDirectory: ''
-            nobuild: false
-            includesymbols: false
-            includesource: false
             requestTimeout: '300'
-            noCache: false
-            restoreDirectory: ''
-            verbosityRestore: ''
-            publishPackageMetadata: ''
-            versioningScheme: ''
-            versionEnvVar: ''
-            majorVersion: ''
-            minorVersion: ''
-            patchVersion: ''
-            buildProperties: ''
-            verbosityPack: ''
-            workingDirectory: ''
+            publishPackageMetadata: 'true'
+            custom: ''
+            workingDirectory: '.'
 
     with:
       command: ${{ matrix.task.command }}
