@@ -17,13 +17,55 @@ jobs:
             arguments: ''
             configuration: ''
             packagesToPush: ''
+            custom: ''
+            restoreArguments: '--force'
+            testRunTitle: ''
+            modifyOutputPath: ''
+            packDirectory: ''
+            nobuild: false
+            includesymbols: false
+            includesource: false
+            requestTimeout: ''
+            noCache: true
+            restoreDirectory: './packages'
+            verbosityRestore: 'normal'
+            publishPackageMetadata: ''
+            versioningScheme: ''
+            versionEnvVar: ''
+            majorVersion: ''
+            minorVersion: ''
+            patchVersion: ''
+            buildProperties: ''
+            verbosityPack: ''
+            workingDirectory: ''
 
           - command: build
             projects: '**/*.csproj'
             nugetConfigPath: ''
             arguments: '--configuration Release'
-            configuration: ''
+            configuration: 'Release'
             packagesToPush: ''
+            custom: ''
+            restoreArguments: ''
+            testRunTitle: ''
+            modifyOutputPath: ''
+            packDirectory: ''
+            nobuild: false
+            includesymbols: false
+            includesource: false
+            requestTimeout: ''
+            noCache: false
+            restoreDirectory: ''
+            verbosityRestore: ''
+            publishPackageMetadata: ''
+            versioningScheme: ''
+            versionEnvVar: ''
+            majorVersion: ''
+            minorVersion: ''
+            patchVersion: ''
+            buildProperties: ''
+            verbosityPack: ''
+            workingDirectory: ''
 
           - command: test
             projects: '**/*.csproj'
@@ -31,6 +73,27 @@ jobs:
             arguments: '--collect "Code coverage"'
             configuration: ''
             packagesToPush: ''
+            custom: ''
+            restoreArguments: ''
+            testRunTitle: 'unittests'
+            modifyOutputPath: ''
+            packDirectory: ''
+            nobuild: false
+            includesymbols: false
+            includesource: false
+            requestTimeout: ''
+            noCache: false
+            restoreDirectory: ''
+            verbosityRestore: ''
+            publishPackageMetadata: ''
+            versioningScheme: ''
+            versionEnvVar: ''
+            majorVersion: ''
+            minorVersion: ''
+            patchVersion: ''
+            buildProperties: ''
+            verbosityPack: ''
+            workingDirectory: ''
 
           - command: pack
             projects: '**/*.csproj'
@@ -38,6 +101,27 @@ jobs:
             arguments: ''
             configuration: 'Release'
             packagesToPush: ''
+            custom: ''
+            restoreArguments: ''
+            testRunTitle: ''
+            modifyOutputPath: './customoutput'
+            packDirectory: './nupkgs'
+            nobuild: true
+            includesymbols: true
+            includesource: true
+            requestTimeout: ''
+            noCache: false
+            restoreDirectory: ''
+            verbosityRestore: ''
+            publishPackageMetadata: ''
+            versioningScheme: 'continuous'
+            versionEnvVar: 'PACKAGE_VERSION'
+            majorVersion: '1'
+            minorVersion: '0'
+            patchVersion: '5'
+            buildProperties: ''
+            verbosityPack: 'detailed'
+            workingDirectory: ''
 
           - command: push
             projects: ''
@@ -45,6 +129,27 @@ jobs:
             arguments: ''
             configuration: ''
             packagesToPush: './nupkgs/*.nupkg'
+            custom: ''
+            restoreArguments: ''
+            testRunTitle: ''
+            modifyOutputPath: ''
+            packDirectory: ''
+            nobuild: false
+            includesymbols: false
+            includesource: false
+            requestTimeout: '300'
+            noCache: false
+            restoreDirectory: ''
+            verbosityRestore: ''
+            publishPackageMetadata: ''
+            versioningScheme: ''
+            versionEnvVar: ''
+            majorVersion: ''
+            minorVersion: ''
+            patchVersion: ''
+            buildProperties: ''
+            verbosityPack: ''
+            workingDirectory: ''
 
     with:
       command: ${{ matrix.task.command }}
@@ -53,3 +158,24 @@ jobs:
       nugetConfigPath: ${{ matrix.task.nugetConfigPath }}
       configuration: ${{ matrix.task.configuration }}
       packagesToPush: ${{ matrix.task.packagesToPush }}
+      custom: ${{ matrix.task.custom }}
+      restoreArguments: ${{ matrix.task.restoreArguments }}
+      testRunTitle: ${{ matrix.task.testRunTitle }}
+      modifyOutputPath: ${{ matrix.task.modifyOutputPath }}
+      packDirectory: ${{ matrix.task.packDirectory }}
+      nobuild: ${{ matrix.task.nobuild }}
+      includesymbols: ${{ matrix.task.includesymbols }}
+      includesource: ${{ matrix.task.includesource }}
+      requestTimeout: ${{ matrix.task.requestTimeout }}
+      noCache: ${{ matrix.task.noCache }}
+      restoreDirectory: ${{ matrix.task.restoreDirectory }}
+      verbosityRestore: ${{ matrix.task.verbosityRestore }}
+      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata }}
+      versioningScheme: ${{ matrix.task.versioningScheme }}
+      versionEnvVar: ${{ matrix.task.versionEnvVar }}
+      majorVersion: ${{ matrix.task.majorVersion }}
+      minorVersion: ${{ matrix.task.minorVersion }}
+      patchVersion: ${{ matrix.task.patchVersion }}
+      buildProperties: ${{ matrix.task.buildProperties }}
+      verbosityPack: ${{ matrix.task.verbosityPack }}
+      workingDirectory: ${{ matrix.task.workingDirectory }}
