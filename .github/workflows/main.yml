@@ -10,14 +10,10 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       command: restore
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: ''
-      packagesToPack: '**/*.csproj'
+      nugetConfigPath: './src/NuGet.config'
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
-      testRunTitle: ''
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
@@ -42,14 +38,10 @@ jobs:
     needs: restore
     with:
       command: build
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: '--configuration Release'
-      packagesToPack: '**/*.csproj'
       configuration: 'Release'
       custom: true
+      arguments: '--configuration Release'
       restoreArguments: '--interactive'
-      testRunTitle: ''
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
@@ -74,14 +66,11 @@ jobs:
     needs: build
     with:
       command: test
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: '--collect "Code coverage"'
-      packagesToPack: '**/*.csproj'
       configuration: 'Release'
       custom: true
-      restoreArguments: '--interactive'
+      arguments: '--collect "Code coverage"'
       testRunTitle: 'CI Test Run'
+      restoreArguments: '--interactive'
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
@@ -106,14 +95,9 @@ jobs:
     needs: test
     with:
       command: pack
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: ''
-      packagesToPack: '**/*.csproj'
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
-      testRunTitle: ''
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
