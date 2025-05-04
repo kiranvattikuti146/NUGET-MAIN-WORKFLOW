@@ -10,7 +10,7 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       command: restore
-      nugetConfigPath: './src/NuGet.config'
+      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
@@ -38,6 +38,7 @@ jobs:
     needs: restore
     with:
       command: build
+      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
       configuration: 'Release'
       custom: true
       arguments: '--configuration Release'
@@ -66,6 +67,7 @@ jobs:
     needs: build
     with:
       command: test
+      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
       configuration: 'Release'
       custom: true
       arguments: '--collect "Code coverage"'
@@ -95,6 +97,7 @@ jobs:
     needs: test
     with:
       command: pack
+      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
