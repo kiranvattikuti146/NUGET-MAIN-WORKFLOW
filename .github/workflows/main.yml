@@ -1,4 +1,4 @@
-name: Main NuGet Workflow
+name: Main Workflow
 
 on:
   push:
@@ -6,50 +6,129 @@ on:
       - main
 
 jobs:
-  call-reusable-nuget:
+  restore:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      # Restore Inputs
-      solution: OrchardCore.sln
-      nugetConfigPath: ./NuGet.config
-      packagesDirectory: ./packages
-      verbosity: detailed
-      nuGetRestoreArgs: ""
-      restoreMode: restore
+      command: restore
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: ''
+      packagesToPack: ''
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
       noCache: true
-      nuGetVersion: 6.13.2
-      nuGetPath: ./nuget.exe
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
 
-      # Packager Inputs
-      searchPattern: src/docs/OrchardCore.Docs.csproj
-      outputdir: ./nupkgs
-      includeSymbols: true
-      versionByBuild: false
-      versionEnvVar: ""
-      majorVersion: 1
-      minorVersion: 0
-      patchVersion: 0
-      configurationToPack: Release
-      buildProperties: Platform="Any CPU"
-      nuGetAdditionalArgs: ""
-      packagesToPack: ""
-      versioningScheme: ""
-      includeReferencedProjects: false
-      packTimezone: ""
-      toolPackage: false
-      basePath: ""
-      verbosityPack: ""
+  build:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    needs: restore
+    with:
+      command: build
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: '--configuration Release'
+      packagesToPack: ''
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
 
-      # Publisher Inputs
-      nuGetFeedType: internal
-      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
-      skipDuplicate: false
+  test:
+    uses: kirandevops1993/DOTNET-UPDATED-REUSABLE/.github/workflows/reusable.yml@main
+    needs: build
+    with:
+      command: test
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: '--collect "Code coverage"'
+      packagesToPack: ''
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: 'CI Test Run'
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
 
-      # Custom Command Inputs
-      arguments: ""
-
-      # Command (unified)
+  pack:
+    uses: kirandevops1993/DOTNET-UPDATED-REUSABLE/.github/workflows/reusable.yml@main
+    needs: test
+    with:
       command: pack
-
-    secrets:
-      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
+      projects: ''
+      nugetConfigPath: 'NuGet.config'
+      arguments: ''
+      packagesToPack: '**/*.csproj'
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
