@@ -10,58 +10,125 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       command: restore
+      projects: '**/*.csproj'
       nugetConfigPath: 'NuGet.config'
-      restoreArguments: '--interactive'
-      verbosityRestore: 'minimal'
-      restoreDirectory: './restoredir'
-      noCache: true
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      workingDirectory: './src'
-
-  build:
-    needs: restore
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    with:
-      command: build
-      arguments: '--configuration Release'
-      noCache: true
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      workingDirectory: './src'
-
-  test:
-    needs: build
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    with:
-      command: test
-      arguments: '--collect "Code coverage"'
-      testRunTitle: 'CI Test Run'
-      noCache: true
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      workingDirectory: './src'
-
-  pack:
-    needs: test
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    with:
-      command: pack
+      arguments: ''
+      packagesToPack: '**/*.csproj'
       configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
       includesymbols: true
       includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
       sensitiveAlphanumericInfo1: 'true'
-      buildProperties: 'CommitId=abc123'
+      versioningScheme: '1.0.0'
       versionEnvVar: 'BUILD_VERSION'
       majorVersion: '1'
       minorVersion: '0'
       patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
+
+  build:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    needs: restore
+    with:
+      command: build
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: '--configuration Release'
+      packagesToPack: '**/*.csproj'
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
+
+  test:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    needs: build
+    with:
+      command: test
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: '--collect "Code coverage"'
+      packagesToPack: '**/*.csproj'
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: 'CI Test Run'
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
+      workingDirectory: './src'
+
+  pack:
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    needs: test
+    with:
+      command: pack
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: ''
+      packagesToPack: '**/*.csproj'
+      configuration: 'Release'
+      custom: true
+      restoreArguments: '--interactive'
+      testRunTitle: ''
+      modifyOutputPath: true
+      packDirectory: './custom_pack'
+      nobuild: true
+      includesymbols: true
+      includesource: true
+      requestTimeout: '180'
+      noCache: true
+      restoreDirectory: './restoredir'
+      verbosityRestore: 'minimal'
+      sensitiveAlphanumericInfo1: 'true'
+      versioningScheme: '1.0.0'
+      versionEnvVar: 'BUILD_VERSION'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '3'
+      buildProperties: 'CommitId=abc123'
+      verbosityPack: 'detailed'
       workingDirectory: './src'
