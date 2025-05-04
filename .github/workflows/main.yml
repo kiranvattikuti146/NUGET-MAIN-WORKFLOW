@@ -10,7 +10,7 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       command: restore
-      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
+      nugetConfigPath: 
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
