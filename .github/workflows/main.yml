@@ -10,10 +10,14 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       command: restore
-      nugetConfigPath: 
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: ''
+      packagesToPack: ''
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
+      testRunTitle: ''
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
@@ -38,11 +42,14 @@ jobs:
     needs: restore
     with:
       command: build
-      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
+      arguments: '--configuration Release'
+      packagesToPack: ''
       configuration: 'Release'
       custom: true
-      arguments: '--configuration Release'
       restoreArguments: '--interactive'
+      testRunTitle: ''
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
@@ -67,40 +74,14 @@ jobs:
     needs: build
     with:
       command: test
-      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
-      configuration: 'Release'
-      custom: true
+      projects: '**/*.csproj'
+      nugetConfigPath: 'NuGet.config'
       arguments: '--collect "Code coverage"'
-      testRunTitle: 'CI Test Run'
-      restoreArguments: '--interactive'
-      modifyOutputPath: true
-      packDirectory: './custom_pack'
-      nobuild: true
-      includesymbols: true
-      includesource: true
-      requestTimeout: '180'
-      noCache: true
-      restoreDirectory: './restoredir'
-      verbosityRestore: 'minimal'
-      sensitiveAlphanumericInfo1: 'true'
-      versioningScheme: '1.0.0'
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      buildProperties: 'CommitId=abc123'
-      verbosityPack: 'detailed'
-      workingDirectory: './src'
-
-  pack:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    needs: test
-    with:
-      command: pack
-      nugetConfigPath: 'NuGet.config'  # ✅ FIXED
+      packagesToPack: ''
       configuration: 'Release'
       custom: true
       restoreArguments: '--interactive'
+      testRunTitle: 'CI Test Run'
       modifyOutputPath: true
       packDirectory: './custom_pack'
       nobuild: true
