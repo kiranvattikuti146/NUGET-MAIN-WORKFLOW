@@ -1,8 +1,10 @@
 name: Main Workflow
+
 on:
   push:
     branches:
       - main
+
 jobs:
   restore:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
@@ -66,8 +68,9 @@ jobs:
       buildProperties: 'CommitId=abc123'
       verbosityPack: 'detailed'
       workingDirectory: './src'
+
   test:
-    uses: kirandevops1993/DOTNET-UPDATED-REUSABLE/.github/workflows/reusable.yml@main
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     needs: build
     with:
       command: test
@@ -97,8 +100,9 @@ jobs:
       buildProperties: 'CommitId=abc123'
       verbosityPack: 'detailed'
       workingDirectory: './src'
+
   pack:
-    uses: kirandevops1993/DOTNET-UPDATED-REUSABLE/.github/workflows/reusable.yml@main
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     needs: test
     with:
       command: pack
