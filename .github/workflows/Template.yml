@@ -60,7 +60,7 @@ jobs:
     with:
       scripttype: "inlineScript"
       scriptname: ".github/workflows/Get-HostName.ps1"
-      scriptarguments: ""
+      arguments: ""
       inlinescript: "hostname"
       workingfolder: ""
       failonstandarderror: true
