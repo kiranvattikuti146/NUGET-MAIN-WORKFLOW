@@ -12,56 +12,84 @@ jobs:
   nuget-restore:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-     platform:
-        required: true
-        type: string
-        default: "Any CPU"
-      configuration:
-        required: true
-        type: string
-        default: "Release"
-      maxCpu:
+     # Restore Inputs
+      solution:
         required: false
-        type: number
-        default: 8
-      clean:
+        type: string
+      nugetConfigPath:
+        required: false
+        type: string
+      packagesDirectory:
+        required: true
+        type: string
+      verbosity:
+        required: true
+        type: string
+      nuGetRestoreArgs:
+        required: true
+        type: string
+      restoreMode:
+        required: true
+        type: string
+      noCache:
         required: true
         type: boolean
-        default: true
-      msbuildArguments:
-        required: false
+      nuGetVersion:
+        required: true
         type: string
-        default: ""
-      createLogFile:
-        required: false
-        type: boolean
-        default: false
-      logFileVerbosity:
-        required: false
+      nuGetPath:
+        required: true
         type: string
-        default: "detailed"
 
       # Packager Inputs
-      searchPattern: src/docs/OrchardCore.Docs.csproj
-      outputdir: ./nupkgs
-      includeSymbols: true
-      versionByBuild: false
-      versionEnvVar: ""
-      majorVersion: 1
-      minorVersion: 0
-      patchVersion: 0
-      configurationToPack: Release
-      buildProperties: Platform="Any CPU"
-      nuGetAdditionalArgs: ""
+      searchPattern:
+        required: true
+        type: string
+      outputdir:
+        required: true
+        type: string
+      includeSymbols:
+        required: true
+        type: boolean
+      versionByBuild:
+        required: true
+        type: boolean
+      versionEnvVar:
+        required: true
+        type: string
+      majorVersion:
+        required: true
+        type: number
+      minorVersion:
+        required: true
+        type: number
+      patchVersion:
+        required: true
+        type: number
+      configurationToPack:
+        required: true
+        type: string
+      buildProperties:
+        required: true
+        type: string
+      nuGetAdditionalArgs:
+        required: true
+        type: string
 
       # Publisher Inputs
-      nuGetFeedType: internal
-      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
-      skipDuplicate: false
+      nuGetFeedType:
+        required: true
+        type: string
+      feedName:
+        required: true
+        type: string
+      skipDuplicate:
+        required: true
+        type: boolean
 
     secrets:
-      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
-
+      apiKey:
+        required: true
   build-solution:
     name: Build Solution
     needs: nuget-restore
