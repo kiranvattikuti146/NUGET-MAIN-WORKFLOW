@@ -1,5 +1,4 @@
 name: Main NuGet Workflow
-
 on:
   push:
     branches:
@@ -7,7 +6,7 @@ on:
 
 jobs:
   call-reusable-nuget:
-    uses: kirandevops1993/NUGET-Reusable/.github/workflows/nugetreusable.yml@main
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       # Restore Inputs
       solution: OrchardCore.sln
@@ -33,8 +32,10 @@ jobs:
       buildProperties: Platform="Any CPU"
       nuGetAdditionalArgs: ""
 
-      # New Required Inputs
-      nuGetFeedType: "Private" # Example value, adjust as needed
-      feedName: "MyNuGetFeed"  # Example value, adjust as needed
-      skipDuplicate: true      # Example value, adjust as needed
-      apiKey: ${{ secrets.NUGET_API_KEY }} # Passing the secret securely
+      # Publisher Inputs
+      nuGetFeedType: internal
+      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
+      skipDuplicate: false
+
+    secrets:
+      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
