@@ -89,8 +89,8 @@ jobs:
         type: boolean
 
     secrets:
-      apiKey:
-        required: true
+      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
+        
         
   build-solution:
     name: Build Solution
