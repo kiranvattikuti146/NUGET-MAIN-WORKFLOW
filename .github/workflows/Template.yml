@@ -13,7 +13,7 @@ jobs:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      solution: " "
+      solution: "path/to/your-solution.sln"
       nugetConfigPath: ./NuGet.config
       packagesDirectory: "path/to/packages"
       verbosity: "detailed"
