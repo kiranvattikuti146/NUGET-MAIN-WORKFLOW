@@ -13,7 +13,7 @@ jobs:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-      # Restore Inputs
+     # Restore Inputs
       solution: OrchardCore.sln
       nugetConfigPath: ./NuGet.config
       packagesDirectory: ./packages
@@ -23,6 +23,8 @@ jobs:
       noCache: true
       nuGetVersion: 6.13.2
       nuGetPath: ./nuget.exe
+
+      # Packager Inputs
       searchPattern: src/docs/OrchardCore.Docs.csproj
       outputdir: ./nupkgs
       includeSymbols: true
@@ -34,9 +36,12 @@ jobs:
       configurationToPack: Release
       buildProperties: Platform="Any CPU"
       nuGetAdditionalArgs: ""
+
+      # Publisher Inputs
       nuGetFeedType: internal
       feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
       skipDuplicate: false
+
     secrets:
       apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
 
