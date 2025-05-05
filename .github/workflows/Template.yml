@@ -17,7 +17,7 @@ jobs:
       nugetConfigPath: ./NuGet.config
       packagesDirectory: "path/to/packages"
       verbosity: "detailed"
-      nuGetRestoreArgs: "--force"
+      nuGetRestoreArgs: " "
       restoreMode: "restore"
       noCache: true
       nuGetVersion: "5.9.0"
