@@ -34,7 +34,7 @@ jobs:
       nuGetAdditionalArgs: ""
 
       # New Required Inputs
-      nuGetFeedType: "Private" 
-      feedName: "MyNuGetFeed"  
-      skipDuplicate: true     
-      apiKey: ${{ secrets.NUGET_API_KEY }} # Secret for API key
+      nuGetFeedType: "Private" # Example value, adjust as needed
+      feedName: "MyNuGetFeed"  # Example value, adjust as needed
+      skipDuplicate: true      # Example value, adjust as needed
+      apiKey: ${{ secrets.NUGET_API_KEY }} # Passing the secret securely
