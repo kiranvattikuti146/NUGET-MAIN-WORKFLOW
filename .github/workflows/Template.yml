@@ -12,6 +12,7 @@ jobs:
   nuget-restore:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    with:
      # Restore Inputs
       solution:
         required: false
