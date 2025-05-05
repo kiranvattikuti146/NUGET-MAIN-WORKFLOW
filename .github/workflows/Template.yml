@@ -7,103 +7,54 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   nuget-restore:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-     # Restore Inputs
-      solution:
-        required: false
-        type: string
-      nugetConfigPath:
-        required: false
-        type: string
-      packagesDirectory:
-        required: true
-        type: string
-      verbosity:
-        required: true
-        type: string
-      nuGetRestoreArgs:
-        required: true
-        type: string
-      restoreMode:
-        required: true
-        type: string
-      noCache:
-        required: true
-        type: boolean
-      nuGetVersion:
-        required: true
-        type: string
-      nuGetPath:
-        required: true
-        type: string
+      solution: "YourSolution.sln"
+      nugetConfigPath: "path/to/nuget.config"
+      packagesDirectory: "path/to/packages"
+      verbosity: "detailed"
+      nuGetRestoreArgs: "--force"
+      restoreMode: "restore"
+      noCache: true
+      nuGetVersion: "5.9.0"
+      nuGetPath: "path/to/nuget.exe"
 
-      # Packager Inputs
-      searchPattern:
-        required: true
-        type: string
-      outputdir:
-        required: true
-        type: string
-      includeSymbols:
-        required: true
-        type: boolean
-      versionByBuild:
-        required: true
-        type: boolean
-      versionEnvVar:
-        required: true
-        type: string
-      majorVersion:
-        required: true
-        type: number
-      minorVersion:
-        required: true
-        type: number
-      patchVersion:
-        required: true
-        type: number
-      configurationToPack:
-        required: true
-        type: string
-      buildProperties:
-        required: true
-        type: string
-      nuGetAdditionalArgs:
-        required: true
-        type: string
+      searchPattern: "*.csproj"
+      outputdir: "path/to/output"
+      includeSymbols: true
+      versionByBuild: true
+      versionEnvVar: "BUILD_VERSION"
+      majorVersion: 1
+      minorVersion: 0
+      patchVersion: 0
+      configurationToPack: "Release"
+      buildProperties: "Configuration=Release"
+      nuGetAdditionalArgs: "--verbosity detailed"
 
-      # Publisher Inputs
-      nuGetFeedType:
-        required: true
-        type: string
-      feedName:
-        required: true
-        type: string
-      skipDuplicate:
-        required: true
-        type: boolean
+      nuGetFeedType: "AzureArtifacts"
+      feedName: "YourFeedName"
+      skipDuplicate: true
 
     secrets:
       apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
-        
+
   build-solution:
     name: Build Solution
     needs: nuget-restore
     uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
     with:
-      solution: .sln
-      vsVersion: latest
-      msbuildArgs: "/p:OutDir=$(build.stagingDirectory) /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p: SkipInvalidConfigurationstrue /p:PackageLocation=$(udClientLocation)"
+      solution: ".sln"
+      vsVersion: "latest"
+      msbuildArgs: "/p:OutDir=$(build.stagingDirectory) /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation=$(udClientLocation)"
       platform: "$(BuildPlatform)"
       configuration: "$(BuildConfiguration)"
       clean: true
       maximumCpuCount: false
-      restoreNugetPackages: false
-      msbuildArchitecture: x86
+      msbuildArchitecture: "x86"
       logProjectEvents: true
       createLogFile: false
       logFileVerbosity: "detailed"
