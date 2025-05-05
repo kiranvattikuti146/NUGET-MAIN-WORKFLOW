@@ -1,102 +1,33 @@
-name: Main Workflow
-
+name: Main NuGet Workflow
 on:
   push:
     branches:
       - main
 
 jobs:
-  restore:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+  call-reusable-nuget:
+    uses: kirandevops1993/NUGET-Reusable/.github/workflows/nugetreusable.yml@main
     with:
-      command: restore
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: ''
-      packagesToPack: ''
-      configuration: 'Release'
-      custom: true
-      restoreArguments: '--interactive'
-      testRunTitle: ''
-      modifyOutputPath: true
-      packDirectory: './custom_pack'
-      nobuild: true
-      includesymbols: true
-      includesource: true
-      requestTimeout: '180'
+      # Restore Inputs
+      solution: OrchardCore.sln
+      nugetConfigPath: ./NuGet.config
+      packagesDirectory: ./packages
+      verbosity: detailed
+      nuGetRestoreArgs: ""
+      restoreMode: restore
       noCache: true
-      restoreDirectory: './restoredir'
-      verbosityRestore: 'minimal'
-      sensitiveAlphanumericInfo1: 'true'
-      versioningScheme: '1.0.0'
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      buildProperties: 'CommitId=abc123'
-      verbosityPack: 'detailed'
-      workingDirectory: './src'
+      nuGetVersion: 6.13.2
+      nuGetPath: ./nuget.exe
 
-  build:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    needs: restore
-    with:
-      command: build
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: '--configuration Release'
-      packagesToPack: ''
-      configuration: 'Release'
-      custom: true
-      restoreArguments: '--interactive'
-      testRunTitle: ''
-      modifyOutputPath: true
-      packDirectory: './custom_pack'
-      nobuild: true
-      includesymbols: true
-      includesource: true
-      requestTimeout: '180'
-      noCache: true
-      restoreDirectory: './restoredir'
-      verbosityRestore: 'minimal'
-      sensitiveAlphanumericInfo1: 'true'
-      versioningScheme: '1.0.0'
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      buildProperties: 'CommitId=abc123'
-      verbosityPack: 'detailed'
-      workingDirectory: './src'
-
-  test:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
-    needs: build
-    with:
-      command: test
-      projects: '**/*.csproj'
-      nugetConfigPath: 'NuGet.config'
-      arguments: '--collect "Code coverage"'
-      packagesToPack: ''
-      configuration: 'Release'
-      custom: true
-      restoreArguments: '--interactive'
-      testRunTitle: 'CI Test Run'
-      modifyOutputPath: true
-      packDirectory: './custom_pack'
-      nobuild: true
-      includesymbols: true
-      includesource: true
-      requestTimeout: '180'
-      noCache: true
-      restoreDirectory: './restoredir'
-      verbosityRestore: 'minimal'
-      sensitiveAlphanumericInfo1: 'true'
-      versioningScheme: '1.0.0'
-      versionEnvVar: 'BUILD_VERSION'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '3'
-      buildProperties: 'CommitId=abc123'
-      verbosityPack: 'detailed'
-      workingDirectory: './src'
+      # Packager Inputs
+      searchPattern: src/docs/OrchardCore.Docs.csproj
+      outputdir: ./nupkgs
+      includeSymbols: true
+      versionByBuild: false
+      versionEnvVar: ""
+      majorVersion: 1
+      minorVersion: 0
+      patchVersion: 0
+      configurationToPack: Release
+      buildProperties: Platform="Any CPU"
+      nuGetAdditionalArgs: ""
