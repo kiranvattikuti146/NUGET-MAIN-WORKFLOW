@@ -58,9 +58,9 @@ jobs:
     needs: build-solution
     uses: kirandevops1993/POWERSHELL-REUSABLE-/.github/workflows/powershellreusable.yml@main
     with:
-      script-type: "inlineScript"
-      script-name: ".github/workflows/Get-HostName.ps1"
-      script-arguments: ""
-      inline-script: "hostname"
-      working-folder: ""
-      fail-on-standard-error: true
+      scripttype: "inlineScript"
+      scriptname: ".github/workflows/Get-HostName.ps1"
+      scriptarguments: ""
+      inlinescript: "hostname"
+      workingfolder: ""
+      failonstandarderror: true
