@@ -91,6 +91,7 @@ jobs:
     secrets:
       apiKey:
         required: true
+        
   build-solution:
     name: Build Solution
     needs: nuget-restore
