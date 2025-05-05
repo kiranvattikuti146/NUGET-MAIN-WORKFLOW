@@ -21,7 +21,7 @@ jobs:
       restoreMode: "restore"
       noCache: true
       nuGetVersion: "5.9.0"
-      nuGetPath: "path/to/nuget.exe"
+      nuGetPath: ./nuget.exe
       searchPattern: "*.csproj"
       outputdir: "path/to/output"
       includeSymbols: true
