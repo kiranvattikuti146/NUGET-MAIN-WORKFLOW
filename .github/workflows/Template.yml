@@ -14,7 +14,7 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       solution: "YourSolution.sln"
-      nugetConfigPath: ./nuget.exe 
+      nugetConfigPath: ./NuGet.config
       packagesDirectory: "path/to/packages"
       verbosity: "detailed"
       nuGetRestoreArgs: "--force"
