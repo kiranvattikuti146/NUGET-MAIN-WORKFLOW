@@ -14,10 +14,10 @@ jobs:
     with:
      # Restore Inputs
       solution:
-        required: true
+        required: false
         type: string
       nugetConfigPath:
-        required: true
+        required: false
         type: string
       packagesDirectory:
         required: true
