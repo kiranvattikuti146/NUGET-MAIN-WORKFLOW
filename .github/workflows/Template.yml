@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   nuget-restore:
     name: NuGet Restore
@@ -21,7 +22,6 @@ jobs:
       noCache: true
       nuGetVersion: "5.9.0"
       nuGetPath: "path/to/nuget.exe"
-
       searchPattern: "*.csproj"
       outputdir: "path/to/output"
       includeSymbols: true
@@ -33,11 +33,10 @@ jobs:
       configurationToPack: "Release"
       buildProperties: "Configuration=Release"
       nuGetAdditionalArgs: "--verbosity detailed"
-
       nuGetFeedType: "AzureArtifacts"
       feedName: "YourFeedName"
       skipDuplicate: true
-      
+
     secrets:
       apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
 
@@ -46,7 +45,7 @@ jobs:
     needs: nuget-restore
     uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
     with:
-      platform: "Any CPU"  
+      platform: "Any CPU"
       configuration: "Release"
       maxCpu: 8
       clean: true
@@ -59,6 +58,9 @@ jobs:
     needs: build-solution
     uses: kirandevops1993/POWERSHELL-REUSABLE-/.github/workflows/powershellreusable.yml@main
     with:
-      script-path: ".github/workflows/Get-HostName.ps1"
+      script-type: "inlineScript"
+      script-name: ".github/workflows/Get-HostName.ps1"
       script-arguments: ""
-      inline-script: ""
+      inline-script: "hostname"
+      working-folder: ""
+      fail-on-standard-error: true
