@@ -14,7 +14,7 @@ jobs:
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
       solution: "YourSolution.sln"
-      nugetConfigPath: "path/to/nuget.config"
+      nugetConfigPath: ".github/nuget.config" # Update this path to the correct location
       packagesDirectory: "path/to/packages"
       verbosity: "detailed"
       nuGetRestoreArgs: "--force"
@@ -58,9 +58,9 @@ jobs:
     needs: build-solution
     uses: kirandevops1993/POWERSHELL-REUSABLE-/.github/workflows/powershellreusable.yml@main
     with:
-      scripttype: "inlineScript"
-      scriptname: ".github/workflows/Get-HostName.ps1"
-      arguments: ""
-      inlinescript: "hostname"
-      workingfolder: ""
-      failonstandarderror: true
+      script-type: "inlineScript"
+      script-name: ".github/workflows/Get-HostName.ps1"
+      script-arguments: ""
+      inline-script: "hostname"
+      working-folder: ""
+      fail-on-standard-error: true
