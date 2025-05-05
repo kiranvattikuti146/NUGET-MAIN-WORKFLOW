@@ -36,3 +36,5 @@ jobs:
       # New Required Inputs
       nuGetFeedType: "Private" 
       feedName: "MyNuGetFeed"  
+      skipDuplicate: true     
+      apiKey: ${{ secrets.NUGET_API_KEY }} # Secret for API key
