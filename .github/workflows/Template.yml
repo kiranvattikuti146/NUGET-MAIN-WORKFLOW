@@ -13,16 +13,34 @@ jobs:
     name: NuGet Restore
     uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
     with:
-     # Restore Inputs
-      solution: OrchardCore.sln
-      nugetConfigPath: ./NuGet.config
-      packagesDirectory: ./packages
-      verbosity: detailed
-      nuGetRestoreArgs: ""
-      restoreMode: restore
-      noCache: true
-      nuGetVersion: 6.13.2
-      nuGetPath: ./nuget.exe
+     platform:
+        required: true
+        type: string
+        default: "Any CPU"
+      configuration:
+        required: true
+        type: string
+        default: "Release"
+      maxCpu:
+        required: false
+        type: number
+        default: 8
+      clean:
+        required: true
+        type: boolean
+        default: true
+      msbuildArguments:
+        required: false
+        type: string
+        default: ""
+      createLogFile:
+        required: false
+        type: boolean
+        default: false
+      logFileVerbosity:
+        required: false
+        type: string
+        default: "detailed"
 
       # Packager Inputs
       searchPattern: src/docs/OrchardCore.Docs.csproj
