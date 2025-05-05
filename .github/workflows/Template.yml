@@ -38,7 +38,7 @@ jobs:
       nuGetFeedType: "AzureArtifacts"
       feedName: "YourFeedName"
       skipDuplicate: true
-
+      
     secrets:
       apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
 
@@ -47,16 +47,12 @@ jobs:
     needs: nuget-restore
     uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
     with:
-      solution: ".sln"
-      vsVersion: "latest"
-      msbuildArgs: "/p:OutDir=$(build.stagingDirectory) /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation=$(udClientLocation)"
-      platform: "$(BuildPlatform)"
-      configuration: "$(BuildConfiguration)"
+      platform: "Any CPU"  
+      configuration: "Release"
+      maxCpu: 8
       clean: true
-      maximumCpuCount: false
-      msbuildArchitecture: "x86"
-      logProjectEvents: true
-      createLogFile: false
+      msbuildArguments: ""
+      createLogFile: true
       logFileVerbosity: "detailed"
 
   run-powershell-script:
