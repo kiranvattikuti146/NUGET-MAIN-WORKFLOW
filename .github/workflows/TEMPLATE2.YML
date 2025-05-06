@@ -1,0 +1,104 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nuget-restore:
+    name: NuGet Restore
+    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+    with:
+      solution: OrchardCore.sln
+      nugetConfigPath: ./NuGet.config
+      packagesDirectory: "path/to/packages"
+      verbosity: "detailed"
+      nuGetRestoreArgs: " "
+      restoreMode: "restore"
+      noCache: true
+      nuGetVersion: "5.9.0"
+      nuGetPath: ./nuget.exe
+      searchPattern: "*.csproj"
+      outputdir: "path/to/output"
+      includeSymbols: true
+      versionByBuild: true
+      versionEnvVar: "BUILD_VERSION"
+      majorVersion: 1
+      minorVersion: 0
+      patchVersion: 0
+      configurationToPack: "Release"
+      buildProperties: "Configuration=Release"
+      nuGetAdditionalArgs: "--verbosity detailed"
+      nuGetFeedType: "AzureArtifacts"
+      feedName: "YourFeedName"
+      skipDuplicate: true
+
+    secrets:
+      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
+
+  build-solution:
+    name: Build Solution
+    needs: nuget-restore
+    uses: kirandevops1993/VS-BUILD-TASK-REUSABLE-/.github/workflows/vsbuildtask-reusable.yml@main
+    with:
+      runsOn: "windows-latest" 
+      logProjectEvents: true
+      vsVersion: "latest"
+      enableDefaultLogger: true
+      restoreNugetArgs: "-NoHttpCache"
+      platform: "Any CPU"
+      configuration: "Release"
+      maxCpu: 8
+      clean: true
+      vsbuildArguments: ""
+      createLogFile: true
+      logFileVerbosity: "detailed"
+
+  run-tests:
+    name: Run Tests
+    needs: build-solution
+    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
+    with:
+      dotnet-version: "7.0.x"
+      test-assembly: "**/*Tests.dll"
+      test-filter-criteria: "TestCategory=Unit"
+      run-settings-file: "test.runsettings"
+      code-coverage-enabled: true
+      configuration: "Release"
+      platform: "x64"
+      test-run-title: "Unit Tests"
+      custom-test-adapters: "path/to/custom/adapters"
+      run-in-parallel: true
+      testPlan: "Plan1"
+      testSuite: "SuiteA"
+      testConfiguration: "DebugConfig"
+      tcmTestRun: "1234"
+      runOnlyImpactedTests: true
+      runAllTestsAfterXBuilds: "50"
+      uiTests: false
+      vstestLocationMethod: "version"
+      vsTestVersion: "latest"
+      vstestLocation: "C:/vstest.console.exe"
+      overrideTestrunParameters: "Param1=Value1"
+      otherConsoleOptions: "--verbosity normal"
+      diagnosticsEnabled: true
+      collectDumpOn: "onAbortOnly"
+      rerunFailedTests: true
+      rerunType: "basedOnTestFailurePercentage"
+      rerunFailedThreshold: "30"
+      rerunFailedTestCasesMaxLimit: "5"
+      rerunMaxAttempts: "3"
+      distributionBatchType: "basedOnTestCases"
+      batchingBasedOnAgentsOption: "autoBatchSize"
+      customBatchSizeValue: "10"
+      batchingBasedOnExecutionTimeOption: "autoBatchSize"
+      customRunTimePerBatchValue: "60"
+      dontDistribute: false
+      publishRunAttachments: true
+      donotPublishTestResults: false
+      failOnMinTestsNotRun: false
+      minimumExpectedTests: "1"
