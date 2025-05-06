@@ -43,7 +43,7 @@ jobs:
   build-solution:
     name: Build Solution
     needs: nuget-restore
-    uses: kirandevops1993/MS-BUILD-TASKS-REUSABLE-/.github/workflows/msbuildtasks-reusable.yml@main
+    uses: kirandevops1993/VS-BUILD-TASK-REUSABLE-/.github/workflows/vsbuildtask-reusable.yml@main
     with:
       platform: "Any CPU"
       configuration: "Release"
