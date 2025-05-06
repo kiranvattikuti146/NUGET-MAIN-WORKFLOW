@@ -45,7 +45,7 @@ jobs:
     needs: nuget-restore
     uses: kirandevops1993/VS-BUILD-TASK-REUSABLE-/.github/workflows/vsbuildtask-reusable.yml@main
     with:
-      runsOn: "windows-latest" 
+      runsOn: "windows-latest"  
       logProjectEvents: true
       vsVersion: "latest"
       enableDefaultLogger: true
@@ -76,28 +76,28 @@ jobs:
       testSuite: "SuiteA"
       testConfiguration: "DebugConfig"
       tcmTestRun: "1234"
-      runOnlyImpactedTests: true
-      runAllTestsAfterXBuilds: "50"
+      sensitive-alphanumeric-info-1: true
+      sensitive-alphanumeric-info-2: "50"
       uiTests: false
-      vstestLocationMethod: "version"
+      sensitive-alphanumeric-info-3: "version"
       vsTestVersion: "latest"
       vstestLocation: "C:/vstest.console.exe"
-      overrideTestrunParameters: "Param1=Value1"
+      sensitive-alphanumeric-info-4: "Param1=Value1"
       otherConsoleOptions: "--verbosity normal"
       diagnosticsEnabled: true
       collectDumpOn: "onAbortOnly"
       rerunFailedTests: true
-      rerunType: "basedOnTestFailurePercentage"
-      rerunFailedThreshold: "30"
-      rerunFailedTestCasesMaxLimit: "5"
+      rerunType: "runAllTestsAfterXBuilds0"
+      sensitive-alphanumeric-info-5: "30"
+      sensitive-alphanumeric-info-6: "5"
       rerunMaxAttempts: "3"
-      distributionBatchType: "basedOnTestCases"
-      batchingBasedOnAgentsOption: "autoBatchSize"
-      customBatchSizeValue: "10"
-      batchingBasedOnExecutionTimeOption: "autoBatchSize"
-      customRunTimePerBatchValue: "60"
+      sensitive-alphanumeric-info-7: "basedOnTestCases"
+      sensitive-alphanumeric-info-8: "autoBatchSize"
+      sensitive-alphanumeric-info-9: "10"
+      sensitive-alphanumeric-info-10: "autoBatchSize"
+      sensitive-alphanumeric-info-11: "60"
       dontDistribute: false
-      publishRunAttachments: true
-      donotPublishTestResults: false
-      failOnMinTestsNotRun: false
-      minimumExpectedTests: "1"
+      sensitive-alphanumeric-info-12: true
+      sensitive-alphanumeric-info-13: false
+      sensitive-alphanumeric-info-14: false
+      sensitive-alphanumeric-info-15: "1"
