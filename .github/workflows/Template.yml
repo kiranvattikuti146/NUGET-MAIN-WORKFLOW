@@ -60,7 +60,7 @@ jobs:
       enableDefaultLogger: true
       customVersion: "1.0.0"
 
-    run-tests:
+  run-tests:
     name: Run Tests
     needs: build-solution
     uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
@@ -87,4 +87,4 @@ jobs:
       diagnosticsEnabled: true
       collectDumpOn: "onAbortOnly"
       rerunFailedTests: true
-      rerunType: "runAllTestsAfterXBuilds0" 
+      rerunType: " runAllTestsAfterXBuilds0"
