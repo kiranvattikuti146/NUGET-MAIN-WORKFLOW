@@ -76,28 +76,12 @@ jobs:
       testSuite: "SuiteA"
       testConfiguration: "DebugConfig"
       tcmTestRun: "1234"
-      sensitive-alphanumeric-info-1: true
-      sensitive-alphanumeric-info-2: "50"
       uiTests: false
       sensitive-alphanumeric-info-3: "version"
       vsTestVersion: "latest"
       vstestLocation: "C:/vstest.console.exe"
-      sensitive-alphanumeric-info-4: "Param1=Value1"
       otherConsoleOptions: "--verbosity normal"
       diagnosticsEnabled: true
       collectDumpOn: "onAbortOnly"
       rerunFailedTests: true
       rerunType: "runAllTestsAfterXBuilds0"
-      sensitive-alphanumeric-info-5: "30"
-      sensitive-alphanumeric-info-6: "5"
-      rerunMaxAttempts: "3"
-      sensitive-alphanumeric-info-7: "basedOnTestCases"
-      sensitive-alphanumeric-info-8: "autoBatchSize"
-      sensitive-alphanumeric-info-9: "10"
-      sensitive-alphanumeric-info-10: "autoBatchSize"
-      sensitive-alphanumeric-info-11: "60"
-      dontDistribute: false
-      sensitive-alphanumeric-info-12: true
-      sensitive-alphanumeric-info-13: false
-      sensitive-alphanumeric-info-14: false
-      sensitive-alphanumeric-info-15: "1"
