@@ -81,6 +81,5 @@ jobs:
       vsTestVersion: "latest"
       vstestLocation: "C:/vstest.console.exe"
       diagnosticsEnabled: true
-      collectDumpOn: "onAbortOnly"
       rerunFailedTests: true
       rerunType: " runAllTestsAfterXBuilds0"
