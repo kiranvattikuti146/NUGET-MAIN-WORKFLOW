@@ -63,10 +63,8 @@ jobs:
   run-tests: 
     name: Run Tests 
     needs: build-solution 
-    runs-on: windows-latest # This specifies the runner for the job
     uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main 
     with: 
-      runsOn: "windows-latest" # This is the input required by the reusable workflow
       dotnet-version: "7.0.x" 
       test-assembly: "**/*Tests.dll" 
       test-filter-criteria: "TestCategory=Unit" 
