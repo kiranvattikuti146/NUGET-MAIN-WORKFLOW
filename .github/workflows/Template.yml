@@ -43,20 +43,9 @@ jobs:
   build-solution:
     name: Build Solution
     needs: nuget-restore
-    uses: kirandevops1993/VS-BUILD-TASK-REUSABLE-/.github/workflows/vsbuildtask-reusable.yml@main
+    uses: kirandevops1993/DINESH-VSBUILD-REUSABLE/.github/workflows/reusable.yml@main
     with:
-      runsOn: "windows-latest"  
-      logProjectEvents: true
-      vsVersion: "latest"
-      enableDefaultLogger: true
-      restoreNugetArgs: "-NoHttpCache"
-      platform: "Any CPU"
-      configuration: "Release"
-      maxCpu: 8
-      clean: true
-      vsbuildArguments: ""
-      createLogFile: true
-      logFileVerbosity: "detailed"
+      
 
   run-tests:
     name: Run Tests
