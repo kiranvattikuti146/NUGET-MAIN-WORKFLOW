@@ -9,38 +9,6 @@ on:
       - main 
 
 jobs: 
-  nuget-restore: 
-    name: NuGet Restore 
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main 
-    with: 
-      runsOn: "windows-latest"
-      solution: OrchardCore.sln 
-      nugetConfigPath: ./NuGet.config 
-      packagesDirectory: "path/to/packages" 
-      verbosity: "detailed" 
-      nuGetRestoreArgs: " " 
-      restoreMode: "restore" 
-      noCache: true 
-      nuGetVersion: "5.9.0" 
-      nuGetPath: ./nuget.exe 
-      searchPattern: "*.csproj" 
-      outputdir: "path/to/output" 
-      includeSymbols: true 
-      versionByBuild: true 
-      versionEnvVar: "BUILD_VERSION" 
-      majorVersion: 1 
-      minorVersion: 0 
-      patchVersion: 0 
-      configurationToPack: "Release" 
-      buildProperties: "Configuration=Release" 
-      nuGetAdditionalArgs: "--verbosity detailed" 
-      nuGetFeedType: "AzureArtifacts" 
-      feedName: "YourFeedName" 
-      skipDuplicate: true 
-
-    secrets: 
-      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }} 
-
   build-solution: 
     name: Build Solution 
     needs: nuget-restore 
