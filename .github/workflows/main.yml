@@ -1,41 +1,31 @@
-name: Main NuGet Workflow
+name: MAIN Workflow
+
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  call-reusable-nuget:
-    uses: kirandevops1993/NUGET-REUSABLE-/.github/workflows/nuget-reusable.yml@main
+  run-tests:
+    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
     with:
-      # Restore Inputs
-      solution: OrchardCore.sln
-      nugetConfigPath: ./NuGet.config
-      packagesDirectory: ./packages
-      verbosity: detailed
-      nuGetRestoreArgs: ""
-      restoreMode: restore
-      noCache: true
-      nuGetVersion: 6.13.2
-      nuGetPath: ./nuget.exe
-
-      # Packager Inputs
-      searchPattern: src/docs/OrchardCore.Docs.csproj
-      outputdir: ./nupkgs
-      includeSymbols: true
-      versionByBuild: false
-      versionEnvVar: ""
-      majorVersion: 1
-      minorVersion: 0
-      patchVersion: 0
-      configurationToPack: Release
-      buildProperties: Platform="Any CPU"
-      nuGetAdditionalArgs: ""
-
-      # Publisher Inputs
-      nuGetFeedType: internal
-      feedName: https://pkgs.dev.azure.com/YourOrg/_packaging/YourFeed/nuget/v3/index.json
-      skipDuplicate: false
-
-    secrets:
-      apiKey: ${{ secrets.AZURE_DEVOPS_PAT }}
+      runsOn: "windows-latest"
+      dotnet-version: "7.0.x"
+      test-assembly: "**/*Tests.dll"
+      code-coverage-enabled: true
+      configuration: "Release"
+      platform: "x64"
+      test-run-title: "Unit Tests"
+      run-in-parallel: true
+      testPlan: "Plan1"
+      testSuite: "SuiteA"
+      testConfiguration: "DebugConfig"
+      tcmTestRun: "1234"
+      uiTests: false
+      vsTestVersion: "latest"
+      diagnosticsEnabled: true
+      rerunFailedTests: true
+      rerunType: "specific"
+      rerunMaxAttempts: "3"
+      dontDistribute: false
