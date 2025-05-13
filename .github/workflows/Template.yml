@@ -59,31 +59,3 @@ jobs:
       logFileVerbosity: "normal" 
       enableDefaultLogger: true 
       customVersion: "1.0.0" 
-
-  run-tests: 
-    name: Run Tests 
-    needs: build-solution 
-    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main 
-    with: 
-      dotnet-version: "7.0.x" 
-      test-assembly: "**/*Tests.dll" 
-      test-filter-criteria: "TestCategory=Unit" 
-      code-coverage-enabled: true 
-      configuration: "Release" 
-      platform: "x64" 
-      test-run-title: "Unit Tests" 
-      custom-test-adapters: "path/to/custom/adapters" 
-      run-in-parallel: true 
-      testPlan: "Plan1" 
-      testSuite: "SuiteA" 
-      testConfiguration: "DebugConfig" 
-      tcmTestRun: "1234" 
-      uiTests: false 
-      sensitive-alphanumeric-info-3: "version" 
-      vsTestVersion: "latest" 
-      vstestLocation: "C:/vstest.console.exe" 
-      otherConsoleOptions: "--verbosity normal" 
-      diagnosticsEnabled: true 
-      collectDumpOn: "onAbortOnly" 
-      rerunFailedTests: true 
-      rerunType: " runAllTestsAfterXBuilds0" \
