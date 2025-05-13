@@ -72,14 +72,12 @@ jobs:
       configuration: "Release"
       platform: "x64"
       test-run-title: "Unit Tests"
-      custom-test-adapters: "path/to/custom/adapters"
       run-in-parallel: true
       testPlan: "Plan1"
       testSuite: "SuiteA"
       testConfiguration: "DebugConfig"
       tcmTestRun: "1234"
       uiTests: false
-      sensitive-alphanumeric-info-3: "version"
       vsTestVersion: "latest"
       vstestLocation: "C:/vstest.console.exe"
       otherConsoleOptions: "--verbosity normal"
