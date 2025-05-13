@@ -62,9 +62,9 @@ jobs:
 
   run-tests:
     name: Run Tests
+    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
     needs: build-solution
     runs-on: windows-latest # Added runs-on at the job level
-    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
     with:
       dotnet-version: "7.0.x"
       test-assembly: "**/*Tests.dll"
