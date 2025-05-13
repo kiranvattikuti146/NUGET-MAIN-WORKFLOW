@@ -68,7 +68,6 @@ jobs:
       runsOn: "windows-latest"
       dotnet-version: "7.0.x"
       test-assembly: "**/*Tests.dll"
-      test-filter-criteria: "TestCategory=Unit"
       code-coverage-enabled: true
       configuration: "Release"
       platform: "x64"
