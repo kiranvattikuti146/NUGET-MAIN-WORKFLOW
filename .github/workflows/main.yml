@@ -31,7 +31,7 @@ jobs:
             packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             nuGetFeedType: external
 
-    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/dotnetreusable.yml@main
+    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnetreusable.yml@main
     with:
       command: ${{ matrix.task.command }}
       projects: ${{ matrix.task.projects || '' }}
