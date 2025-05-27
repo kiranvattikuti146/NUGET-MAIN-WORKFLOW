@@ -1,0 +1,44 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dotnet-tasks:
+    strategy:
+      matrix:
+        task:
+          - command: restore
+            projects: '**/*.csproj'
+            feedsToUse: config
+            nugetConfigPath: 'NuGet.config'
+
+          - command: build
+            projects: '**/*.csproj'
+            arguments: '--configuration Release'
+
+          - command: test
+            projects: '**/*.csproj'
+            arguments: '--collect "Code coverage"'
+
+          - command: pack
+            packagesToPack: '**/*.csproj'
+            configuration: 'Release'
+
+          - command: push
+            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+            nuGetFeedType: external
+
+    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/dotnetreusable.yml@main
+    with:
+      command: ${{ matrix.task.command }}
+      projects: ${{ matrix.task.projects || '' }}
+      arguments: ${{ matrix.task.arguments || '' }}
+      feedsToUse: ${{ matrix.task.feedsToUse || '' }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath || '' }}
+      packagesToPack: ${{ matrix.task.packagesToPack || '' }}
+      configuration: ${{ matrix.task.configuration || '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush || '' }}
+      nuGetFeedType: ${{ matrix.task.nuGetFeedType || '' }}
