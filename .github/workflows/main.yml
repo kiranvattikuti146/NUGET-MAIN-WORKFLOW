@@ -48,7 +48,7 @@ jobs:
             publishPackageMetadata: true
             requestTimeout: '300'
 
-    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnetreusable.yml@main
+    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnet-reusable.yml@main
     with:
       command: ${{ matrix.task.command }}
       projects: ${{ matrix.task.projects '' }}
