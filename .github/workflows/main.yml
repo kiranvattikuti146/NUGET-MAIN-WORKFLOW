@@ -14,6 +14,10 @@ jobs:
             projects: '**/*.csproj'
             feedsToUse: config
             nugetConfigPath: 'NuGet.config'
+            restoreArguments: '--force'
+            noCache: true
+            restoreDirectory: 'packages'
+            verbosityRestore: 'minimal'
 
           - command: build
             projects: '**/*.csproj'
@@ -22,11 +26,27 @@ jobs:
           - command: test
             projects: '**/*.csproj'
             arguments: '--collect "Code coverage"'
+            testRunTitle: 'UnitTestResults'
+            publishTestResults: true
 
           - command: pack
             packagesToPack: '**/*.csproj'
             configuration: 'Release'
+            packDirectory: 'artifacts'
+            nobuild: true
+            includesymbols: true
+            includesource: true
+            buildProperties: 'ContinuousIntegrationBuild=true'
+            verbosityPack: 'detailed'
 
+          - command: publish
+            projects: '**/*.csproj'
+            publishWebProjects: true
+            zipAfterPublish: true
+            modifyOutputPath: true
+            includeNuGetOrg: true
+            publishPackageMetadata: true
+            requestTimeout: '300'
 
     uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnetreusable.yml@main
     with:
@@ -35,7 +55,28 @@ jobs:
       arguments: ${{ matrix.task.arguments '' }}
       feedsToUse: ${{ matrix.task.feedsToUse '' }}
       nugetConfigPath: ${{ matrix.task.nugetConfigPath '' }}
+      restoreArguments: ${{ matrix.task.restoreArguments '' }}
+      noCache: ${{ matrix.task.noCache '' }}
+      restoreDirectory: ${{ matrix.task.restoreDirectory '' }}
+      verbosityRestore: ${{ matrix.task.verbosityRestore '' }}
+      testRunTitle: ${{ matrix.task.testRunTitle '' }}
+      publishTestResults: ${{ matrix.task.publishTestResults '' }}
       packagesToPack: ${{ matrix.task.packagesToPack '' }}
       configuration: ${{ matrix.task.configuration '' }}
-      packagesToPush: ${{ matrix.task.packagesToPush '' }}
-      nuGetFeedType: ${{ matrix.task.nuGetFeedType '' }}
+      packDirectory: ${{ matrix.task.packDirectory '' }}
+      nobuild: ${{ matrix.task.nobuild '' }}
+      includesymbols: ${{ matrix.task.includesymbols '' }}
+      includesource: ${{ matrix.task.includesource '' }}
+      buildProperties: ${{ matrix.task.buildProperties '' }}
+      verbosityPack: ${{ matrix.task.verbosityPack '' }}
+      publishWebProjects: ${{ matrix.task.publishWebProjects '' }}
+      zipAfterPublish: ${{ matrix.task.zipAfterPublish '' }}
+      modifyOutputPath: ${{ matrix.task.modifyOutputPath '' }}
+      includeNuGetOrg: ${{ matrix.task.includeNuGetOrg '' }}
+      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata '' }}
+      requestTimeout: ${{ matrix.task.requestTimeout '' }}
+      versionEnvVar: ${{ matrix.task.versionEnvVar '' }}
+      majorVersion: ${{ matrix.task.majorVersion '' }}
+      minorVersion: ${{ matrix.task.minorVersion '' }}
+      patchVersion: ${{ matrix.task.patchVersion '' }}
+      workingDirectory: ${{ matrix.task.workingDirectory '' }}
