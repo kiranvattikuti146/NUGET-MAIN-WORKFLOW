@@ -1,4 +1,4 @@
-name: MAIN Workflow
+name: Main Workflow
 
 on:
   push:
@@ -6,24 +6,36 @@ on:
       - main
 
 jobs:
-  run-tests:
+  dotnet-tasks:
+    strategy:
+      matrix:
+        task:
+          - command: restore
+            projects: '**/*.csproj'
+            feedsToUse: config
+            nugetConfigPath: 'NuGet.config'
+
+          - command: build
+            projects: '**/*.csproj'
+            arguments: '--configuration Release'
+
+          - command: test
+            projects: '**/*.csproj'
+            arguments: '--collect "Code coverage"'
+
+          - command: pack
+            packagesToPack: '**/*.csproj'
+            configuration: 'Release'
+
+
     uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnetreusable.yml@main
     with:
-      runsOn: "windows-latest"
-      dotnet-version: "7.0.x"
-      code-coverage-enabled: true
-      configuration: "Release"
-      platform: "x64"
-      run-in-parallel: true
-      testPlan: "Plan1"
-      testSuite: "SuiteA"
-      testConfiguration: "Release"
-      tcmTestRun: "1234"
-      uiTests: false
-      vsTestVersion: "latest"
-      vstestLocation: "C:Program FilesMicrosoft Visual Studio2022EnterpriseCommon7IDEExtensionsTestPlatformvstest.console.exe"
-      diagnosticsEnabled: true
-      rerunFailedTests: true
-      rerunType: "specific"
-      rerunMaxAttempts: "3"
-      dontDistribute: false
+      command: ${{ matrix.task.command }}
+      projects: ${{ matrix.task.projects '' }}
+      arguments: ${{ matrix.task.arguments '' }}
+      feedsToUse: ${{ matrix.task.feedsToUse '' }}
+      nugetConfigPath: ${{ matrix.task.nugetConfigPath '' }}
+      packagesToPack: ${{ matrix.task.packagesToPack '' }}
+      configuration: ${{ matrix.task.configuration '' }}
+      packagesToPush: ${{ matrix.task.packagesToPush '' }}
+      nuGetFeedType: ${{ matrix.task.nuGetFeedType '' }}
