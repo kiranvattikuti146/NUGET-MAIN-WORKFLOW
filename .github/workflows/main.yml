@@ -1,31 +1,41 @@
-name: MAIN Workflow
+name: Main Workflow
 
 on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
-  run-tests:
-    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnet-reusable.yml@main
-    with:
-      runsOn: "windows-latest"
-      dotnet-version: "7.0.x"
-      test-assembly: "**/*Tests.dll"
-      code-coverage-enabled: true
-      configuration: "Release"
-      platform: "x64"
-      test-run-title: "Unit Tests"
-      run-in-parallel: true
-      testPlan: "Plan1"
-      testSuite: "SuiteA"
-      testConfiguration: "DebugConfig"
-      tcmTestRun: "1234"
-      uiTests: false
-      vsTestVersion: "latest"
-      diagnosticsEnabled: true
-      rerunFailedTests: true
-      rerunType: "specific"
-      rerunMaxAttempts: "3"
-      dontDistribute: false
+  Build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Execute .NET Tasks
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: restore
+          projects: '**/*.csproj'
+          nugetConfigPath: 'NuGet.config'
+          restoreArguments: '--force'
+          noCache: true
+          restoreDirectory: 'packages'
+          verbosityRestore: 'minimal'
+          arguments: '--configuration Release'
+          publishTestResults: true
+          testRunTitle: 'UnitTestResults'
+          packagesToPack: '**/*.csproj'
+          configuration: 'Release'
+          packDirectory: 'artifacts'
+          nobuild: true
+          includesymbols: true
+          includesource: true
+          buildProperties: 'ContinuousIntegrationBuild=true'
+          verbosityPack: 'detailed'
+          publishWebProjects: true
+          zipAfterPublish: true
+          modifyOutputPath: true
+          includeNuGetOrg: true
+          publishPackageMetadata: true
+          requestTimeout: '300'
