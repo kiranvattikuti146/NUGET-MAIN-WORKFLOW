@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: restore
-           solution: OrchardCore.sln
+           solution: 'OrchardCore.sln'
           searchPattern: "*.csproj"
           nugetConfigPath: 'NuGet.config'
           restoreArguments: '--force'
