@@ -1,3 +1,4 @@
+
 name: Main Workflow
 
 on:
@@ -6,77 +7,36 @@ on:
       - main
 
 jobs:
-  dotnet-tasks:
-    strategy:
-      matrix:
-        task:
-          - command: restore
-            projects: '**/*.csproj'
-            feedsToUse: config
-            nugetConfigPath: 'NuGet.config'
-            restoreArguments: '--force'
-            noCache: true
-            restoreDirectory: 'packages'
-            verbosityRestore: 'minimal'
+  Build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-          - command: build
-            projects: '**/*.csproj'
-            arguments: '--configuration Release'
-
-          - command: test
-            projects: '**/*.csproj'
-            arguments: '--collect "Code coverage"'
-            testRunTitle: 'UnitTestResults'
-            publishTestResults: true
-
-          - command: pack
-            packagesToPack: '**/*.csproj'
-            configuration: 'Release'
-            packDirectory: 'artifacts'
-            nobuild: true
-            includesymbols: true
-            includesource: true
-            buildProperties: 'ContinuousIntegrationBuild=true'
-            verbosityPack: 'detailed'
-
-          - command: publish
-            projects: '**/*.csproj'
-            publishWebProjects: true
-            zipAfterPublish: true
-            modifyOutputPath: true
-            includeNuGetOrg: true
-            publishPackageMetadata: true
-            requestTimeout: '300'
-
-    uses: kiranvattikuti146/DOTNET-REUSABLE/.github/workflows/Dotnet-reusable.yml@main
-    with:
-      command: ${{ matrix.task.command }}
-      projects: ${{ matrix.task.projects '' }}
-      arguments: ${{ matrix.task.arguments '' }}
-      feedsToUse: ${{ matrix.task.feedsToUse '' }}
-      nugetConfigPath: ${{ matrix.task.nugetConfigPath '' }}
-      restoreArguments: ${{ matrix.task.restoreArguments '' }}
-      noCache: ${{ matrix.task.noCache '' }}
-      restoreDirectory: ${{ matrix.task.restoreDirectory '' }}
-      verbosityRestore: ${{ matrix.task.verbosityRestore '' }}
-      testRunTitle: ${{ matrix.task.testRunTitle '' }}
-      publishTestResults: ${{ matrix.task.publishTestResults '' }}
-      packagesToPack: ${{ matrix.task.packagesToPack '' }}
-      configuration: ${{ matrix.task.configuration '' }}
-      packDirectory: ${{ matrix.task.packDirectory '' }}
-      nobuild: ${{ matrix.task.nobuild '' }}
-      includesymbols: ${{ matrix.task.includesymbols '' }}
-      includesource: ${{ matrix.task.includesource '' }}
-      buildProperties: ${{ matrix.task.buildProperties '' }}
-      verbosityPack: ${{ matrix.task.verbosityPack '' }}
-      publishWebProjects: ${{ matrix.task.publishWebProjects '' }}
-      zipAfterPublish: ${{ matrix.task.zipAfterPublish '' }}
-      modifyOutputPath: ${{ matrix.task.modifyOutputPath '' }}
-      includeNuGetOrg: ${{ matrix.task.includeNuGetOrg '' }}
-      publishPackageMetadata: ${{ matrix.task.publishPackageMetadata '' }}
-      requestTimeout: ${{ matrix.task.requestTimeout '' }}
-      versionEnvVar: ${{ matrix.task.versionEnvVar '' }}
-      majorVersion: ${{ matrix.task.majorVersion '' }}
-      minorVersion: ${{ matrix.task.minorVersion '' }}
-      patchVersion: ${{ matrix.task.patchVersion '' }}
-      workingDirectory: ${{ matrix.task.workingDirectory '' }}
+      - name: Execute .NET Tasks
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: restore
+          projects: '**/*.csproj'
+          nugetConfigPath: 'NuGet.config'
+          restoreArguments: '--force'
+          noCache: true
+          restoreDirectory: 'packages'
+          verbosityRestore: 'minimal'
+          arguments: '--configuration Release'
+          publishTestResults: true
+          testRunTitle: 'UnitTestResults'
+          packagesToPack: '**/*.csproj'
+          configuration: 'Release'
+          packDirectory: 'artifacts'
+          nobuild: true
+          includesymbols: true
+          includesource: true
+          buildProperties: 'ContinuousIntegrationBuild=true'
+          verbosityPack: 'detailed'
+          publishWebProjects: true
+          zipAfterPublish: true
+          modifyOutputPath: true
+          includeNuGetOrg: true
+          publishPackageMetadata: true
+          requestTimeout: '300'
