@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: restore
-          projects: '**/*.csproj'
+          projects: '**/*OrchardCore.csproj'
           nugetConfigPath: 'NuGet.config'
           restoreArguments: '--force'
           noCache: true
@@ -25,7 +25,7 @@ jobs:
           arguments: '--configuration Release'
           publishTestResults: true
           testRunTitle: 'UnitTestResults'
-          packagesToPack: '**/*.csproj'
+          packagesToPack: '**/*OrchardCore.csproj'
           configuration: 'Release'
           packDirectory: 'artifacts'
           nobuild: true
