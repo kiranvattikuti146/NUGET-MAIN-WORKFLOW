@@ -38,3 +38,44 @@ jobs:
           includeNuGetOrg: true
           publishPackageMetadata: true
           requestTimeout: '300'
+
+      - name: Build Project
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: build
+          projects: '**/*.csproj'
+          arguments: '--configuration Release'
+
+      - name: Run Tests
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: test
+          projects: '**/*.csproj'
+          arguments: '--collect "Code coverage"'
+          testRunTitle: 'UnitTestResults'
+          publishTestResults: true
+
+      - name: Pack Project
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: pack
+          packagesToPack: '**/*.csproj'
+          configuration: 'Release'
+          packDirectory: 'artifacts'
+          nobuild: true
+          includesymbols: true
+          includesource: true
+          buildProperties: 'ContinuousIntegrationBuild=true'
+          verbosityPack: 'detailed'
+
+      - name: Publish Project
+        uses: ./.github/actions/Dotnet-actions
+        with:
+          command: publish
+          projects: '**/*.csproj'
+          publishWebProjects: true
+          zipAfterPublish: true
+          modifyOutputPath: true
+          includeNuGetOrg: true
+          publishPackageMetadata: true
+          requestTimeout: '300'
