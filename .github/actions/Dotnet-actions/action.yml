@@ -94,7 +94,7 @@ runs:
 
         switch ($command) {
           "restore" {
-            dotnet restore $projects `
+            dotnet restore "$projects" `
               --configfile '${{ inputs.nugetConfigPath }}' `
               ${{ inputs.restoreArguments }} `
               --no-cache:${{ inputs.noCache }} `
@@ -102,17 +102,17 @@ runs:
               --verbosity '${{ inputs.verbosityRestore }}'
           }
           "build" {
-            dotnet build $projects $arguments
+            dotnet build "$projects" $arguments
           }
           "test" {
-            dotnet test $projects $arguments `
+            dotnet test "$projects" $arguments `
               --logger "trx;LogFileName=${{ inputs.testRunTitle }}.trx"
             if (${{ inputs.publishTestResults }}) {
               echo "Publishing test results..."
             }
           }
           "pack" {
-            dotnet pack $projects `
+            dotnet pack "$projects" `
               --configuration '${{ inputs.configuration }}' `
               --output '${{ inputs.packDirectory }}' `
               --no-build:${{ inputs.nobuild }} `
@@ -122,10 +122,10 @@ runs:
               --verbosity '${{ inputs.verbosityPack }}'
           }
           "publish" {
-            dotnet publish $projects `
+            dotnet publish "$projects" `
               --configuration '${{ inputs.configuration }}' `
               --output '${{ inputs.packDirectory }}' `
-              --no-build:${{ inputs.nobuild }} `
+              --no-build:${{ inputs.nobuild }}' `
               --verbosity '${{ inputs.verbosityPack }}'
             if (${{ inputs.publishWebProjects }}) {
               echo "Publishing web projects..."
