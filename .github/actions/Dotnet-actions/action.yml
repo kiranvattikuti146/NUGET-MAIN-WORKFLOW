@@ -85,46 +85,56 @@ runs:
       with:
         dotnet-version: '9.0.201'
 
-    - name: Run dotnet ${{ inputs.command }}
+    - name: Run dotnet command
       shell: pwsh
       run: |
         $command = '${{ inputs.command }}'
-        if ($command -eq "restore") {
-          dotnet restore "${{ inputs.projects }}" `
-            --configfile "${{ inputs.nugetConfigPath }}" `
-            ${{ inputs.restoreArguments }} `
-            --no-cache="${{ inputs.noCache }}" `
-            --packages "${{ inputs.restoreDirectory }}" `
-            --verbosity "${{ inputs.verbosityRestore }}"
-        } elseif ($command -eq "build") {
-          dotnet build "${{ inputs.projects }}" ${{ inputs.arguments }}
-        } elseif ($command -eq "test") {
-          dotnet test "${{ inputs.projects }}" ${{ inputs.arguments }} `
-            --logger "trx;LogFileName=${{ inputs.testRunTitle }}.trx"
-          if (${{ inputs.publishTestResults }}) {
-            echo "Publishing test results..."
+        $projects = '${{ inputs.projects }}'
+        $arguments = '${{ inputs.arguments }}'
+
+        switch ($command) {
+          "restore" {
+            dotnet restore $projects `
+              --configfile '${{ inputs.nugetConfigPath }}' `
+              ${{ inputs.restoreArguments }} `
+              --no-cache:${{ inputs.noCache }} `
+              --packages '${{ inputs.restoreDirectory }}' `
+              --verbosity '${{ inputs.verbosityRestore }}'
           }
-        } elseif ($command -eq "pack") {
-          dotnet pack "${{ inputs.packagesToPack }}" `
-            --configuration "${{ inputs.configuration }}" `
-            --output "${{ inputs.packDirectory }}" `
-            --no-build="${{ inputs.nobuild }}" `
-            --include-symbols="${{ inputs.includesymbols }}" `
-            --include-source="${{ inputs.includesource }}" `
-            --property "${{ inputs.buildProperties }}" `
-            --verbosity "${{ inputs.verbosityPack }}"
-        } elseif ($command -eq "publish") {
-          dotnet publish "${{ inputs.projects }}" `
-            --configuration "${{ inputs.configuration }}" `
-            --output "${{ inputs.packDirectory }}" `
-            --no-build="${{ inputs.nobuild }}" `
-            --verbosity "${{ inputs.verbosityPack }}"
-          if (${{ inputs.publishWebProjects }}) {
-            echo "Publishing web projects..."
+          "build" {
+            dotnet build $projects $arguments
           }
-          if (${{ inputs.zipAfterPublish }}) {
-            echo "Zipping published output..."
+          "test" {
+            dotnet test $projects $arguments `
+              --logger "trx;LogFileName=${{ inputs.testRunTitle }}.trx"
+            if (${{ inputs.publishTestResults }}) {
+              echo "Publishing test results..."
+            }
           }
-        } else {
-          Write-Error "Invalid command: $command"
+          "pack" {
+            dotnet pack $projects `
+              --configuration '${{ inputs.configuration }}' `
+              --output '${{ inputs.packDirectory }}' `
+              --no-build:${{ inputs.nobuild }} `
+              --include-symbols:${{ inputs.includesymbols }} `
+              --include-source:${{ inputs.includesource }}' `
+              --property '${{ inputs.buildProperties }}' `
+              --verbosity '${{ inputs.verbosityPack }}'
+          }
+          "publish" {
+            dotnet publish $projects `
+              --configuration '${{ inputs.configuration }}' `
+              --output '${{ inputs.packDirectory }}' `
+              --no-build:${{ inputs.nobuild }} `
+              --verbosity '${{ inputs.verbosityPack }}'
+            if (${{ inputs.publishWebProjects }}) {
+              echo "Publishing web projects..."
+            }
+            if (${{ inputs.zipAfterPublish }}) {
+              echo "Zipping published output..."
+            }
+          }
+          default {
+            throw "Invalid command: $command"
+          }
         }
