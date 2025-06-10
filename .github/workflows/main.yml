@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: restore
-          projects: '**/*.csproj' # Replaces searchPattern
+          projects: '**/*.csproj' # Ensure this input is passed
           nugetConfigPath: 'NuGet.config'
           restoreArguments: '--force'
           noCache: true
@@ -43,14 +43,14 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: build
-          projects: '**/*.csproj'
+          projects: '**/*.csproj' # Ensure this input is passed
           arguments: '--configuration Release'
 
       - name: Run Tests
         uses: ./.github/actions/Dotnet-actions
         with:
           command: test
-          projects: '**/*.csproj'
+          projects: '**/*.csproj' # Ensure this input is passed
           arguments: '--collect "Code coverage"'
           testRunTitle: 'UnitTestResults'
           publishTestResults: true
@@ -59,7 +59,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: pack
-          projects: '**/*.csproj' # Replaces packagesToPack
+          projects: '**/*.csproj' # Ensure this input is passed
           configuration: 'Release'
           packDirectory: 'artifacts'
           nobuild: true
@@ -72,7 +72,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: publish
-          projects: '**/*.csproj'
+          projects: '**/*.csproj' # Ensure this input is passed
           publishWebProjects: true
           zipAfterPublish: true
           modifyOutputPath: true
