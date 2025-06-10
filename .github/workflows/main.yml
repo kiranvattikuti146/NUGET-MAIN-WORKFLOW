@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: restore
-          searchPattern: "*.csproj"
+          projects: '**/*.csproj' # Replaces searchPattern
           nugetConfigPath: 'NuGet.config'
           restoreArguments: '--force'
           noCache: true
@@ -59,7 +59,7 @@ jobs:
         uses: ./.github/actions/Dotnet-actions
         with:
           command: pack
-          packagesToPack: '**/*.csproj'
+          projects: '**/*.csproj' # Replaces packagesToPack
           configuration: 'Release'
           packDirectory: 'artifacts'
           nobuild: true
