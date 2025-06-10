@@ -99,8 +99,8 @@ runs:
             if ('${{ inputs.restoreArguments }}') { $restoreArgs += '${{ inputs.restoreArguments }}' }
             if ('${{ inputs.noCache }}' -eq 'true') { $restoreArgs += "--no-cache" }
             if ('${{ inputs.restoreDirectory }}') { $restoreArgs += "--packages '${{ inputs.restoreDirectory }}'" }
-            if ('${{ inputs.verbosityRestore }}') { $restoreArgs += "--verbosity '${{ inputs.verbosityRestore }}'" }
-            dotnet restore "$projects" $restoreArgs
+            if ('${{ inputs.verbosityRestore }}') { $restoreArgs += "--verbosity ${inputs.verbosityRestore}" }
+            dotnet restore "$projects" $restoreArgs -p:RestoreForce=true
           }
           "build" {
             dotnet build "$projects" $arguments
