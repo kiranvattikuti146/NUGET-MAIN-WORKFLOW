@@ -18,10 +18,10 @@ jobs:
           command: restore
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config 
+          packagesDirectory: "path/to/packages"
           restoreArguments: '--force'
           noCache: true
-          restoreDirectory: 'packages' 
-
+        
       - name: Build Project
         uses: ./.github/actions/Dotnet-actions
         with:
