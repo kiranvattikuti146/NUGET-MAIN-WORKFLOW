@@ -13,36 +13,6 @@ inputs:
   restoreArguments:
     required: false
     type: string
-  publishTestResults:
-    required: false
-    type: boolean
-  testRunTitle:
-    required: false
-    type: string
-  publishWebProjects:
-    required: false
-    type: boolean
-  zipAfterPublish:
-    required: false
-    type: boolean
-  modifyOutputPath:
-    required: false
-    type: boolean
-  configuration:
-    required: false
-    type: string
-  packDirectory:
-    required: false
-    type: string
-  nobuild:
-    required: false
-    type: boolean
-  includesymbols:
-    required: false
-    type: boolean
-  includesource:
-    required: false
-    type: boolean
   nugetConfigPath:
     required: false
     type: string
@@ -50,9 +20,6 @@ inputs:
     required: false
     type: boolean
   restoreDirectory:
-    required: false
-    type: string
-  buildProperties:
     required: false
     type: string
 
@@ -83,10 +50,27 @@ runs:
         switch ($command) {
           "restore" {
             $restoreCommand = "dotnet restore `"$projects`""
-            if ('${{ inputs.nugetConfigPath }}') { $restoreCommand += " --configfile `"$(${inputs.nugetConfigPath})`"" }
-            if ('${{ inputs.restoreArguments }}') { $restoreCommand += " $(${inputs.restoreArguments})" }
-            if ('${{ inputs.noCache }}' -eq 'true') { $restoreCommand += " --no-cache" }
-            if ('${{ inputs.restoreDirectory }}') { $restoreCommand += " --packages `"$(${inputs.restoreDirectory})`"" }
+
+            # Append --configfile only if nugetConfigPath is provided and not empty
+            if ('${{ inputs.nugetConfigPath }}' -and '${{ inputs.nugetConfigPath }}'.Trim() -ne '') {
+              $restoreCommand += " --configfile `"$(${inputs.nugetConfigPath})`""
+            }
+
+            # Append --no-cache if noCache is true
+            if ('${{ inputs.noCache }}' -eq 'true') {
+              $restoreCommand += " --no-cache"
+            }
+
+            # Append --packages only if restoreDirectory is provided and not empty
+            if ('${{ inputs.restoreDirectory }}' -and '${{ inputs.restoreDirectory }}'.Trim() -ne '') {
+              $restoreCommand += " --packages `"$(${inputs.restoreDirectory})`""
+            }
+
+            # Append additional restore arguments if provided
+            if ('${{ inputs.restoreArguments }}' -and '${{ inputs.restoreArguments }}'.Trim() -ne '') {
+              $restoreCommand += " $(${inputs.restoreArguments})"
+            }
+
             Write-Host "Executing: $restoreCommand"
             Invoke-Expression $restoreCommand
           }
@@ -99,37 +83,20 @@ runs:
           "test" {
             $testCommand = "dotnet test `"$projects`""
             if ($arguments) { $testCommand += " $arguments" }
-            if ('${{ inputs.testRunTitle }}') { $testCommand += " --logger `"'trx;LogFileName=${{ inputs.testRunTitle }}.trx'`"" }
             Write-Host "Executing: $testCommand"
             Invoke-Expression $testCommand
-            if ('${{ inputs.publishTestResults }}' -eq 'true') {
-              Write-Host "Publishing test results..."
-            }
           }
           "pack" {
             $packCommand = "dotnet pack `"$projects`""
-            if ('${{ inputs.configuration }}') { $packCommand += " --configuration `"$(${inputs.configuration})`"" }
-            if ('${{ inputs.packDirectory }}') { $packCommand += " --output `"$(${inputs.packDirectory})`"" }
-            if ('${{ inputs.nobuild }}' -eq 'true') { $packCommand += " --no-build" }
-            if ('${{ inputs.includesymbols }}' -eq 'true') { $packCommand += " --include-symbols" }
-            if ('${{ inputs.includesource }}' -eq 'true') { $packCommand += " --include-source" }
-            if ('${{ inputs.buildProperties }}') { $packCommand += " --property `"$(${inputs.buildProperties})`"" }
+            if ($arguments) { $packCommand += " $arguments" }
             Write-Host "Executing: $packCommand"
             Invoke-Expression $packCommand
           }
           "publish" {
             $publishCommand = "dotnet publish `"$projects`""
-            if ('${{ inputs.configuration }}') { $publishCommand += " --configuration `"$(${inputs.configuration})`"" }
-            if ('${{ inputs.packDirectory }}') { $publishCommand += " --output `"$(${inputs.packDirectory})`"" }
-            if ('${{ inputs.nobuild }}' -eq 'true') { $publishCommand += " --no-build" }
+            if ($arguments) { $publishCommand += " $arguments" }
             Write-Host "Executing: $publishCommand"
             Invoke-Expression $publishCommand
-            if ('${{ inputs.publishWebProjects }}' -eq 'true') {
-              Write-Host "Publishing web projects..."
-            }
-            if ('${{ inputs.zipAfterPublish }}' -eq 'true') {
-              Write-Host "Zipping published output..."
-            }
           }
           default {
             throw "Invalid command: $command"
