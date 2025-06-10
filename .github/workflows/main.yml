@@ -12,70 +12,40 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Execute .NET Tasks
+      - name: Restore Dependencies
         uses: ./.github/actions/Dotnet-actions
         with:
           command: restore
-          projects: '**/*.csproj' # Ensure this input is passed
-          nugetConfigPath: 'NuGet.config'
+          projects: '**/*.csproj'
+          nugetConfigPath: 'NuGet.config' # Optional, provide only if needed
           restoreArguments: '--force'
           noCache: true
-          restoreDirectory: 'packages'
-          verbosityRestore: 'minimal'
-          arguments: '--configuration Release'
-          publishTestResults: true
-          testRunTitle: 'UnitTestResults'
-          configuration: 'Release'
-          packDirectory: 'artifacts'
-          nobuild: true
-          includesymbols: true
-          includesource: true
-          buildProperties: 'ContinuousIntegrationBuild=true'
-          verbosityPack: 'detailed'
-          publishWebProjects: true
-          zipAfterPublish: true
-          modifyOutputPath: true
-          includeNuGetOrg: true
-          publishPackageMetadata: true
-          requestTimeout: '300'
+          restoreDirectory: 'packages' # Optional, provide only if needed
 
       - name: Build Project
         uses: ./.github/actions/Dotnet-actions
         with:
           command: build
-          projects: '**/*.csproj' # Ensure this input is passed
+          projects: '**/*.csproj'
           arguments: '--configuration Release'
 
       - name: Run Tests
         uses: ./.github/actions/Dotnet-actions
         with:
           command: test
-          projects: '**/*.csproj' # Ensure this input is passed
+          projects: '**/*.csproj'
           arguments: '--collect "Code coverage"'
-          testRunTitle: 'UnitTestResults'
-          publishTestResults: true
 
       - name: Pack Project
         uses: ./.github/actions/Dotnet-actions
         with:
           command: pack
-          projects: '**/*.csproj' # Ensure this input is passed
-          configuration: 'Release'
-          packDirectory: 'artifacts'
-          nobuild: true
-          includesymbols: true
-          includesource: true
-          buildProperties: 'ContinuousIntegrationBuild=true'
-          verbosityPack: 'detailed'
+          projects: '**/*.csproj'
+          arguments: '--configuration Release'
 
       - name: Publish Project
         uses: ./.github/actions/Dotnet-actions
         with:
           command: publish
-          projects: '**/*.csproj' # Ensure this input is passed
-          publishWebProjects: true
-          zipAfterPublish: true
-          modifyOutputPath: true
-          includeNuGetOrg: true
-          publishPackageMetadata: true
-          requestTimeout: '300'
+          projects: '**/*.csproj'
+          arguments: '--configuration Release'
