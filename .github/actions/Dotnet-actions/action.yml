@@ -94,47 +94,56 @@ runs:
 
         switch ($command) {
           "restore" {
-            $restoreArgs = @()
-            if ('${{ inputs.nugetConfigPath }}') { $restoreArgs += "--configfile '${{ inputs.nugetConfigPath }}'" }
-            if ('${{ inputs.restoreArguments }}') { $restoreArgs += '${{ inputs.restoreArguments }}' }
-            if ('${{ inputs.noCache }}' -eq 'true') { $restoreArgs += "--no-cache" }
-            if ('${{ inputs.restoreDirectory }}') { $restoreArgs += "--packages '${{ inputs.restoreDirectory }}'" }
-            if ('${{ inputs.verbosityRestore }}') { $restoreArgs += "--verbosity ${inputs.verbosityRestore}" }
-            dotnet restore "$projects" $restoreArgs -p:RestoreForce=true
+            $restoreCommand = "dotnet restore $projects"
+            if ('${{ inputs.nugetConfigPath }}') { $restoreCommand += " --configfile '${{ inputs.nugetConfigPath }}'" }
+            if ('${{ inputs.restoreArguments }}') { $restoreCommand += " ${{ inputs.restoreArguments }}" }
+            if ('${{ inputs.noCache }}' -eq 'true') { $restoreCommand += " --no-cache" }
+            if ('${{ inputs.restoreDirectory }}') { $restoreCommand += " --packages '${{ inputs.restoreDirectory }}'" }
+            if ('${{ inputs.verbosityRestore }}') { $restoreCommand += " --verbosity ${inputs.verbosityRestore}" }
+            Write-Host "Executing: $restoreCommand"
+            Invoke-Expression $restoreCommand
           }
           "build" {
-            dotnet build "$projects" $arguments
+            $buildCommand = "dotnet build $projects"
+            if ($arguments) { $buildCommand += " $arguments" }
+            Write-Host "Executing: $buildCommand"
+            Invoke-Expression $buildCommand
           }
           "test" {
-            dotnet test "$projects" $arguments `
-              --logger "trx;LogFileName=${{ inputs.testRunTitle }}.trx"
+            $testCommand = "dotnet test $projects"
+            if ($arguments) { $testCommand += " $arguments" }
+            if ('${{ inputs.testRunTitle }}') { $testCommand += " --logger 'trx;LogFileName=${{ inputs.testRunTitle }}.trx'" }
+            Write-Host "Executing: $testCommand"
+            Invoke-Expression $testCommand
             if ('${{ inputs.publishTestResults }}' -eq 'true') {
-              echo "Publishing test results..."
+              Write-Host "Publishing test results..."
             }
           }
           "pack" {
-            $packArgs = @()
-            if ('${{ inputs.configuration }}') { $packArgs += "--configuration '${{ inputs.configuration }}'" }
-            if ('${{ inputs.packDirectory }}') { $packArgs += "--output '${{ inputs.packDirectory }}'" }
-            if ('${{ inputs.nobuild }}' -eq 'true') { $packArgs += "--no-build" }
-            if ('${{ inputs.includesymbols }}' -eq 'true') { $packArgs += "--include-symbols" }
-            if ('${{ inputs.includesource }}' -eq 'true') { $packArgs += "--include-source" }
-            if ('${{ inputs.buildProperties }}') { $packArgs += "--property '${{ inputs.buildProperties }}'" }
-            if ('${{ inputs.verbosityPack }}') { $packArgs += "--verbosity '${{ inputs.verbosityPack }}'" }
-            dotnet pack "$projects" $packArgs
+            $packCommand = "dotnet pack $projects"
+            if ('${{ inputs.configuration }}') { $packCommand += " --configuration '${{ inputs.configuration }}'" }
+            if ('${{ inputs.packDirectory }}') { $packCommand += " --output '${{ inputs.packDirectory }}'" }
+            if ('${{ inputs.nobuild }}' -eq 'true') { $packCommand += " --no-build" }
+            if ('${{ inputs.includesymbols }}' -eq 'true') { $packCommand += " --include-symbols" }
+            if ('${{ inputs.includesource }}' -eq 'true') { $packCommand += " --include-source" }
+            if ('${{ inputs.buildProperties }}') { $packCommand += " --property '${{ inputs.buildProperties }}'" }
+            if ('${{ inputs.verbosityPack }}') { $packCommand += " --verbosity '${{ inputs.verbosityPack }}'" }
+            Write-Host "Executing: $packCommand"
+            Invoke-Expression $packCommand
           }
           "publish" {
-            $publishArgs = @()
-            if ('${{ inputs.configuration }}') { $publishArgs += "--configuration '${{ inputs.configuration }}'" }
-            if ('${{ inputs.packDirectory }}') { $publishArgs += "--output '${{ inputs.packDirectory }}'" }
-            if ('${{ inputs.nobuild }}' -eq 'true') { $publishArgs += "--no-build" }
-            if ('${{ inputs.verbosityPack }}') { $publishArgs += "--verbosity '${{ inputs.verbosityPack }}'" }
-            dotnet publish "$projects" $publishArgs
+            $publishCommand = "dotnet publish $projects"
+            if ('${{ inputs.configuration }}') { $publishCommand += " --configuration '${{ inputs.configuration }}'" }
+            if ('${{ inputs.packDirectory }}') { $publishCommand += " --output '${{ inputs.packDirectory }}'" }
+            if ('${{ inputs.nobuild }}' -eq 'true') { $publishCommand += " --no-build" }
+            if ('${{ inputs.verbosityPack }}') { $publishCommand += " --verbosity '${{ inputs.verbosityPack }}'" }
+            Write-Host "Executing: $publishCommand"
+            Invoke-Expression $publishCommand
             if ('${{ inputs.publishWebProjects }}' -eq 'true') {
-              echo "Publishing web projects..."
+              Write-Host "Publishing web projects..."
             }
             if ('${{ inputs.zipAfterPublish }}' -eq 'true') {
-              echo "Zipping published output..."
+              Write-Host "Zipping published output..."
             }
           }
           default {
