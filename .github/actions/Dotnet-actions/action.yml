@@ -52,13 +52,7 @@ inputs:
   restoreDirectory:
     required: false
     type: string
-  verbosityRestore:
-    required: false
-    type: string
   buildProperties:
-    required: false
-    type: string
-  verbosityPack:
     required: false
     type: string
 
@@ -93,9 +87,6 @@ runs:
             if ('${{ inputs.restoreArguments }}') { $restoreCommand += " $(${inputs.restoreArguments})" }
             if ('${{ inputs.noCache }}' -eq 'true') { $restoreCommand += " --no-cache" }
             if ('${{ inputs.restoreDirectory }}') { $restoreCommand += " --packages `"$(${inputs.restoreDirectory})`"" }
-            if ('${{ inputs.verbosityRestore }}' -and '${{ inputs.verbosityRestore }}'.Trim() -ne '') {
-              $restoreCommand += " --verbosity `"$(${inputs.verbosityRestore})`""
-            }
             Write-Host "Executing: $restoreCommand"
             Invoke-Expression $restoreCommand
           }
@@ -123,7 +114,6 @@ runs:
             if ('${{ inputs.includesymbols }}' -eq 'true') { $packCommand += " --include-symbols" }
             if ('${{ inputs.includesource }}' -eq 'true') { $packCommand += " --include-source" }
             if ('${{ inputs.buildProperties }}') { $packCommand += " --property `"$(${inputs.buildProperties})`"" }
-            if ('${{ inputs.verbosityPack }}') { $packCommand += " --verbosity `"$(${inputs.verbosityPack})`"" }
             Write-Host "Executing: $packCommand"
             Invoke-Expression $packCommand
           }
@@ -132,7 +122,6 @@ runs:
             if ('${{ inputs.configuration }}') { $publishCommand += " --configuration `"$(${inputs.configuration})`"" }
             if ('${{ inputs.packDirectory }}') { $publishCommand += " --output `"$(${inputs.packDirectory})`"" }
             if ('${{ inputs.nobuild }}' -eq 'true') { $publishCommand += " --no-build" }
-            if ('${{ inputs.verbosityPack }}') { $publishCommand += " --verbosity `"$(${inputs.verbosityPack})`"" }
             Write-Host "Executing: $publishCommand"
             Invoke-Expression $publishCommand
             if ('${{ inputs.publishWebProjects }}' -eq 'true') {
