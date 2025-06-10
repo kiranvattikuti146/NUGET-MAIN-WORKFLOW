@@ -94,12 +94,13 @@ runs:
 
         switch ($command) {
           "restore" {
-            dotnet restore "$projects" `
-              --configfile '${{ inputs.nugetConfigPath }}' `
-              ${{ inputs.restoreArguments }} `
-              --no-cache:${{ inputs.noCache }} `
-              --packages '${{ inputs.restoreDirectory }}' `
-              --verbosity '${{ inputs.verbosityRestore }}'
+            $restoreArgs = @()
+            if ('${{ inputs.nugetConfigPath }}') { $restoreArgs += "--configfile '${{ inputs.nugetConfigPath }}'" }
+            if ('${{ inputs.restoreArguments }}') { $restoreArgs += '${{ inputs.restoreArguments }}' }
+            if ('${{ inputs.noCache }}' -eq 'true') { $restoreArgs += "--no-cache" }
+            if ('${{ inputs.restoreDirectory }}') { $restoreArgs += "--packages '${{ inputs.restoreDirectory }}'" }
+            if ('${{ inputs.verbosityRestore }}') { $restoreArgs += "--verbosity '${{ inputs.verbosityRestore }}'" }
+            dotnet restore "$projects" $restoreArgs
           }
           "build" {
             dotnet build "$projects" $arguments
@@ -107,30 +108,32 @@ runs:
           "test" {
             dotnet test "$projects" $arguments `
               --logger "trx;LogFileName=${{ inputs.testRunTitle }}.trx"
-            if (${{ inputs.publishTestResults }}) {
+            if ('${{ inputs.publishTestResults }}' -eq 'true') {
               echo "Publishing test results..."
             }
           }
           "pack" {
-            dotnet pack "$projects" `
-              --configuration '${{ inputs.configuration }}' `
-              --output '${{ inputs.packDirectory }}' `
-              --no-build:${{ inputs.nobuild }} `
-              --include-symbols:${{ inputs.includesymbols }} `
-              --include-source:${{ inputs.includesource }}' `
-              --property '${{ inputs.buildProperties }}' `
-              --verbosity '${{ inputs.verbosityPack }}'
+            $packArgs = @()
+            if ('${{ inputs.configuration }}') { $packArgs += "--configuration '${{ inputs.configuration }}'" }
+            if ('${{ inputs.packDirectory }}') { $packArgs += "--output '${{ inputs.packDirectory }}'" }
+            if ('${{ inputs.nobuild }}' -eq 'true') { $packArgs += "--no-build" }
+            if ('${{ inputs.includesymbols }}' -eq 'true') { $packArgs += "--include-symbols" }
+            if ('${{ inputs.includesource }}' -eq 'true') { $packArgs += "--include-source" }
+            if ('${{ inputs.buildProperties }}') { $packArgs += "--property '${{ inputs.buildProperties }}'" }
+            if ('${{ inputs.verbosityPack }}') { $packArgs += "--verbosity '${{ inputs.verbosityPack }}'" }
+            dotnet pack "$projects" $packArgs
           }
           "publish" {
-            dotnet publish "$projects" `
-              --configuration '${{ inputs.configuration }}' `
-              --output '${{ inputs.packDirectory }}' `
-              --no-build:${{ inputs.nobuild }}' `
-              --verbosity '${{ inputs.verbosityPack }}'
-            if (${{ inputs.publishWebProjects }}) {
+            $publishArgs = @()
+            if ('${{ inputs.configuration }}') { $publishArgs += "--configuration '${{ inputs.configuration }}'" }
+            if ('${{ inputs.packDirectory }}') { $publishArgs += "--output '${{ inputs.packDirectory }}'" }
+            if ('${{ inputs.nobuild }}' -eq 'true') { $publishArgs += "--no-build" }
+            if ('${{ inputs.verbosityPack }}') { $publishArgs += "--verbosity '${{ inputs.verbosityPack }}'" }
+            dotnet publish "$projects" $publishArgs
+            if ('${{ inputs.publishWebProjects }}' -eq 'true') {
               echo "Publishing web projects..."
             }
-            if (${{ inputs.zipAfterPublish }}) {
+            if ('${{ inputs.zipAfterPublish }}' -eq 'true') {
               echo "Zipping published output..."
             }
           }
