@@ -28,9 +28,6 @@ inputs:
   modifyOutputPath:
     required: false
     type: boolean
-  packagesToPack:
-    required: false
-    type: string
   configuration:
     required: false
     type: string
@@ -46,12 +43,6 @@ inputs:
   includesource:
     required: false
     type: boolean
-  requestTimeout:
-    required: false
-    type: string
-  includeNuGetOrg:
-    required: false
-    type: boolean
   nugetConfigPath:
     required: false
     type: string
@@ -64,9 +55,6 @@ inputs:
   verbosityRestore:
     required: false
     type: string
-  publishPackageMetadata:
-    required: false
-    type: boolean
   buildProperties:
     required: false
     type: string
@@ -92,6 +80,10 @@ runs:
         $projects = '${{ inputs.projects }}'
         $arguments = '${{ inputs.arguments }}'
 
+        if (-not $projects) {
+          throw "The 'projects' input is required and cannot be empty."
+        }
+
         switch ($command) {
           "restore" {
             $restoreCommand = "dotnet restore $projects"
@@ -99,7 +91,9 @@ runs:
             if ('${{ inputs.restoreArguments }}') { $restoreCommand += " ${{ inputs.restoreArguments }}" }
             if ('${{ inputs.noCache }}' -eq 'true') { $restoreCommand += " --no-cache" }
             if ('${{ inputs.restoreDirectory }}') { $restoreCommand += " --packages '${{ inputs.restoreDirectory }}'" }
-            if ('${{ inputs.verbosityRestore }}') { $restoreCommand += " --verbosity ${inputs.verbosityRestore}" }
+            if ('${{ inputs.verbosityRestore }}' -and '${{ inputs.verbosityRestore }}'.Trim() -ne '') {
+              $restoreCommand += " --verbosity '${{ inputs.verbosityRestore }}'"
+            }
             Write-Host "Executing: $restoreCommand"
             Invoke-Expression $restoreCommand
           }
