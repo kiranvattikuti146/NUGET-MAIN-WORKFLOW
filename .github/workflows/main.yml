@@ -35,7 +35,7 @@ jobs:
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
-          configuration: 'Release'  # Pass the configuration explicitly
+          configuration: '$(BuildConfiguration)'
           packDirectory: '$(Build.ArtifactStagingDirectory)'
 
       - name: Run Tests
