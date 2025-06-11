@@ -31,7 +31,7 @@ jobs:
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
           packagesDirectory: "path/to/packages"
-          arguments: "
+          arguments: '--configuration Release'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
@@ -53,7 +53,7 @@ jobs:
         with:
           command: pack
           projects: '**/*.csproj'
-          arguments: '--configuration Release'
+          arguments: "
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
