@@ -22,6 +22,18 @@ inputs:
   packagesDirectory:
     required: true
     type: string
+  nuGetPath:
+    required: true
+    type: string
+  nuGetVersion:
+    required: true
+    type: string
+  verbosity:
+    required: false
+    type: string
+  solution:
+    required: true
+    type: string
 
 runs:
   using: 'composite'
@@ -52,12 +64,12 @@ runs:
     - name: Restore NuGet Packages
       shell: pwsh
       run: |
-        ./nuget.exe restore "${{ inputs.solution }}" `
+        & "${{ inputs.nuGetPath }}" restore "${{ inputs.solution }}" `
           -ConfigFile "${{ inputs.nugetConfigPath }}" `
           -PackagesDirectory "${{ inputs.packagesDirectory }}" `
           -Verbosity ${{ inputs.verbosity }} `
           -NonInteractive `
-          ${{ inputs.nuGetRestoreArgs }}
+          ${{ inputs.restoreArguments }}
 
     - name: Execute Command
       shell: pwsh
