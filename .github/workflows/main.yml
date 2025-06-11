@@ -19,9 +19,11 @@ jobs:
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
           packagesDirectory: "path/to/packages"
+          restoreArguments: '--force'
           noCache: true
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
+          solution: './OrchardCore.sln'
 
       - name: Build Project
         uses: ./.github/actions/Dotnet-actions
@@ -31,6 +33,7 @@ jobs:
           arguments: '--configuration Release'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
+          solution: './OrchardCore.sln'
 
       - name: Run Tests
         uses: ./.github/actions/Dotnet-actions
@@ -40,6 +43,7 @@ jobs:
           arguments: '--collect "Code coverage"'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
+          solution: './OrchardCore.sln'
 
       - name: Pack Project
         uses: ./.github/actions/Dotnet-actions
@@ -49,6 +53,7 @@ jobs:
           arguments: '--configuration Release'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
+          solution: './OrchardCore.sln'
 
       - name: Publish Project
         uses: ./.github/actions/Dotnet-actions
@@ -58,3 +63,4 @@ jobs:
           arguments: '--configuration Release'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
+          solution: './OrchardCore.sln'
