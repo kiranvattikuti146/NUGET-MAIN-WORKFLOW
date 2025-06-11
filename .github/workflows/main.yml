@@ -1,3 +1,5 @@
+workflow:
+
 name: Main Workflow
 
 on:
@@ -31,7 +33,7 @@ jobs:
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
           packagesDirectory: "path/to/packages"
-          arguments: '--configuration Release'
+          arguments: null
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
@@ -43,7 +45,7 @@ jobs:
         with:
           command: test
           projects: '**/*.csproj'
-          arguments: '--collect "Code coverage"'
+          arguments: null
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
@@ -53,7 +55,7 @@ jobs:
         with:
           command: pack
           projects: '**/*.csproj'
-          arguments: ''
+          arguments: null
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
@@ -63,7 +65,7 @@ jobs:
         with:
           command: publish
           projects: '**/*.csproj'
-          arguments: '--configuration Release'
+          arguments: null
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
