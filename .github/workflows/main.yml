@@ -1,5 +1,3 @@
-workflow:
-
 name: Main Workflow
 
 on:
