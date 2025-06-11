@@ -61,6 +61,10 @@ runs:
     - name: Restore NuGet Packages
       shell: pwsh
       run: |
+        if (!(Test-Path "${{ inputs.solution }}")) {
+          Write-Error "Solution file not found at path: ${{ inputs.solution }}"
+          exit 1
+        }
         & "${{ inputs.nuGetPath }}" restore "${{ inputs.solution }}" `
           -ConfigFile "${{ inputs.nugetConfigPath }}" `
           -PackagesDirectory "${{ inputs.packagesDirectory }}" `
