@@ -71,16 +71,11 @@ runs:
           -NonInteractive `
           ${{ inputs.restoreArguments }}
 
-    - name: Execute Command
+    - name: Build
       shell: pwsh
       run: |
-        switch (${{ inputs.command }}) {
-          "build" {
-            $buildCommand = "dotnet build `"$projects`""
-            if ($arguments) { $buildCommand += " $arguments" }
-            Write-Host "Executing: $buildCommand"
-            Invoke-Expression $buildCommand
-          }
+        dotnet build ${{ inputs.solution }} --configuration ${{ inputs.configuration }} ${{ inputs.arguments }}
+          
           "test" {
             $testCommand = "dotnet test `"$projects`""
             if ($arguments) { $testCommand += " $arguments" }
