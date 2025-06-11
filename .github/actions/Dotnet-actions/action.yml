@@ -34,7 +34,7 @@ inputs:
     required: true
     type: string
   configuration: 
-    required: false
+    required: true
     type: string
 
 runs:
