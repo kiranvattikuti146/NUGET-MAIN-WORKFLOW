@@ -14,13 +14,13 @@ inputs:
     required: false
     type: string
   nugetConfigPath:
-    required: false
+    required: true
     type: string
   noCache:
     required: false
     type: boolean
-  restoreDirectory:
-    required: false
+  packagesDirectory:
+    required: true
     type: string
 
 runs:
@@ -34,46 +34,28 @@ runs:
       with:
         dotnet-version: '9.0.201'
 
-    - name: Run dotnet command
-      shell: pwsh
-      run: |
-        $command = '${{ inputs.command }}'
-        $projects = '${{ inputs.projects }}'
-        $arguments = '${{ inputs.arguments }}'
-
-        # Validate the 'projects' input
-        if (-not $projects -or $projects.Trim() -eq '') {
-          throw "The 'projects' input is required and cannot be empty."
-        }
-
-        # Handle different commands
-        switch ($command) {
-          "restore" {
-            $restoreCommand = "dotnet restore `"$projects`""
-
-            # Append --configfile only if nugetConfigPath is provided and not empty
-            if ('${{ inputs.nugetConfigPath }}' -and '${{ inputs.nugetConfigPath }}'.Trim() -ne '') {
-              $restoreCommand += " --configfile `"$(${inputs.nugetConfigPath})`""
-            }
-
-            # Append --no-cache if noCache is true
-            if ('${{ inputs.noCache }}' -eq 'true') {
-              $restoreCommand += " --no-cache"
-            }
-
-            # Append --packages only if restoreDirectory is provided and not empty
-            if ('${{ inputs.restoreDirectory }}' -and '${{ inputs.restoreDirectory }}'.Trim() -ne '') {
-              $restoreCommand += " --packages `"$(${inputs.restoreDirectory})`""
-            }
-
-            # Append additional restore arguments if provided
-            if ('${{ inputs.restoreArguments }}' -and '${{ inputs.restoreArguments }}'.Trim() -ne '') {
-              $restoreCommand += " $(${inputs.restoreArguments})"
-            }
-
-            Write-Host "Executing: $restoreCommand"
-            Invoke-Expression $restoreCommand
+    - name: Validate nuget.config Path
+        run: |
+          if (!(Test-Path "${{ inputs.nugetConfigPath }}")) {
+            Write-Error "nuget.config file not found at path: ${{ inputs.nugetConfigPath }}"
+            exit 1
           }
+
+      - name: Download NuGet
+        run: |
+          if (!(Test-Path "${{ inputs.nuGetPath }}")) {
+            Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/v${{ inputs.nuGetVersion }}/nuget.exe" -OutFile "${{ inputs.nuGetPath }}"
+          }
+
+      - name: Restore NuGet Packages
+        run: |
+          ./nuget.exe restore "${{ inputs.solution }}" `
+            -ConfigFile "${{ inputs.nugetConfigPath }}" `
+            -PackagesDirectory "${{ inputs.packagesDirectory }}" `
+            -Verbosity ${{ inputs.verbosity }} `
+            -NonInteractive `
+            ${{ inputs.nuGetRestoreArgs }}
+            
           "build" {
             $buildCommand = "dotnet build `"$projects`""
             if ($arguments) { $buildCommand += " $arguments" }
