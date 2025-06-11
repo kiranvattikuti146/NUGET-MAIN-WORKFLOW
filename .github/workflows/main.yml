@@ -53,7 +53,7 @@ jobs:
         with:
           command: pack
           projects: '**/*.csproj'
-          arguments: "
+          arguments: ''
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
