@@ -28,9 +28,6 @@ inputs:
   nuGetVersion:
     required: true
     type: string
-  verbosity:
-    required: false
-    type: string
   solution:
     required: true
     type: string
@@ -67,7 +64,6 @@ runs:
         & "${{ inputs.nuGetPath }}" restore "${{ inputs.solution }}" `
           -ConfigFile "${{ inputs.nugetConfigPath }}" `
           -PackagesDirectory "${{ inputs.packagesDirectory }}" `
-          -Verbosity ${{ inputs.verbosity }} `
           -NonInteractive `
           ${{ inputs.restoreArguments }}
 
