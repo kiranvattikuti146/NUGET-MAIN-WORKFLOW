@@ -29,10 +29,14 @@ jobs:
         with:
           command: build
           projects: '**/*.csproj'
+          nugetConfigPath: ./NuGet.config
+          packagesDirectory: "path/to/packages"
           arguments: '--configuration Release'
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
+          configuration: '$(BuildConfiguration)'
+          packDirectory: '$(Build.ArtifactStagingDirectory)'
 
       - name: Run Tests
         uses: ./.github/actions/Dotnet-actions
