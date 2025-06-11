@@ -19,7 +19,6 @@ jobs:
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
           packagesDirectory: "path/to/packages"
-          restoreArguments: '--force'
           noCache: true
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
