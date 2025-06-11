@@ -47,10 +47,8 @@ jobs:
           command: test
           projects: '**/*.csproj'
           arguments: null
-          nuGetPath: './nuget.exe'
-          nuGetVersion: '5.11.0'
-          solution: './OrchardCore.sln'
-
+         
+          
       - name: Pack Project
         uses: ./.github/actions/Dotnet-actions
         with:
