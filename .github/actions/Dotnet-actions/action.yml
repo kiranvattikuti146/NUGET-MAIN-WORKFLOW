@@ -35,27 +35,30 @@ runs:
         dotnet-version: '9.0.201'
 
     - name: Validate nuget.config Path
-        run: |
-          if (!(Test-Path "${{ inputs.nugetConfigPath }}")) {
-            Write-Error "nuget.config file not found at path: ${{ inputs.nugetConfigPath }}"
-            exit 1
-          }
+      run: |
+        if (!(Test-Path "${{ inputs.nugetConfigPath }}")) {
+          Write-Error "nuget.config file not found at path: ${{ inputs.nugetConfigPath }}"
+          exit 1
+        }
 
-      - name: Download NuGet
-        run: |
-          if (!(Test-Path "${{ inputs.nuGetPath }}")) {
-            Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/v${{ inputs.nuGetVersion }}/nuget.exe" -OutFile "${{ inputs.nuGetPath }}"
-          }
+    - name: Download NuGet
+      run: |
+        if (!(Test-Path "${{ inputs.nuGetPath }}")) {
+          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/v${{ inputs.nuGetVersion }}/nuget.exe" -OutFile "${{ inputs.nuGetPath }}"
+        }
 
-      - name: Restore NuGet Packages
-        run: |
-          ./nuget.exe restore "${{ inputs.solution }}" `
-            -ConfigFile "${{ inputs.nugetConfigPath }}" `
-            -PackagesDirectory "${{ inputs.packagesDirectory }}" `
-            -Verbosity ${{ inputs.verbosity }} `
-            -NonInteractive `
-            ${{ inputs.nuGetRestoreArgs }}
-            
+    - name: Restore NuGet Packages
+      run: |
+        ./nuget.exe restore "${{ inputs.solution }}" `
+          -ConfigFile "${{ inputs.nugetConfigPath }}" `
+          -PackagesDirectory "${{ inputs.packagesDirectory }}" `
+          -Verbosity ${{ inputs.verbosity }} `
+          -NonInteractive `
+          ${{ inputs.nuGetRestoreArgs }}
+
+    - name: Execute Command
+      run: |
+        switch (${{ inputs.command }}) {
           "build" {
             $buildCommand = "dotnet build `"$projects`""
             if ($arguments) { $buildCommand += " $arguments" }
@@ -81,6 +84,6 @@ runs:
             Invoke-Expression $publishCommand
           }
           default {
-            throw "Invalid command: $command"
+            throw "Invalid command: ${{ inputs.command }}"
           }
         }
