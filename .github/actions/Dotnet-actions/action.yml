@@ -38,7 +38,8 @@ inputs:
     type: string
 
 runs:
-  using: 'composite'  steps:
+  using: 'composite'  
+  steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
