@@ -21,8 +21,8 @@ jobs:
           packagesDirectory: "path/to/packages"
           restoreArguments: '--force'
           noCache: true
-          nuGetPath: './nuget.exe' # Added nuGetPath
-          nuGetVersion: '5.11.0'   # Added nuGetVersion
+          nuGetPath: './nuget.exe'
+          nuGetVersion: '5.11.0'
 
       - name: Build Project
         uses: ./.github/actions/Dotnet-actions
@@ -30,8 +30,8 @@ jobs:
           command: build
           projects: '**/*.csproj'
           arguments: '--configuration Release'
-          nuGetPath: './nuget.exe' # Added nuGetPath
-          nuGetVersion: '5.11.0'   # Added nuGetVersion
+          nuGetPath: './nuget.exe'
+          nuGetVersion: '5.11.0'
 
       - name: Run Tests
         uses: ./.github/actions/Dotnet-actions
@@ -39,8 +39,8 @@ jobs:
           command: test
           projects: '**/*.csproj'
           arguments: '--collect "Code coverage"'
-          nuGetPath: './nuget.exe' # Added nuGetPath
-          nuGetVersion: '5.11.0'   # Added nuGetVersion
+          nuGetPath: './nuget.exe'
+          nuGetVersion: '5.11.0'
 
       - name: Pack Project
         uses: ./.github/actions/Dotnet-actions
@@ -48,8 +48,8 @@ jobs:
           command: pack
           projects: '**/*.csproj'
           arguments: '--configuration Release'
-          nuGetPath: './nuget.exe' # Added nuGetPath
-          nuGetVersion: '5.11.0'   # Added nuGetVersion
+          nuGetPath: './nuget.exe'
+          nuGetVersion: '5.11.0'
 
       - name: Publish Project
         uses: ./.github/actions/Dotnet-actions
@@ -57,5 +57,5 @@ jobs:
           command: publish
           projects: '**/*.csproj'
           arguments: '--configuration Release'
-          nuGetPath: './nuget.exe' # Added nuGetPath
-          nuGetVersion: '5.11.0'   # Added nuGetVersion
+          nuGetPath: './nuget.exe'
+          nuGetVersion: '5.11.0'
