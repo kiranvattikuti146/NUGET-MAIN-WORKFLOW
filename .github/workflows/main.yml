@@ -8,6 +8,8 @@ on:
 jobs:
   Build:
     runs-on: windows-latest
+    env:
+      BuildConfiguration: 'Release' # Define the configuration as an environment variable
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -23,6 +25,7 @@ jobs:
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
+          configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
 
       - name: Build Project
         uses: ./.github/actions/Dotnet-actions
@@ -35,7 +38,7 @@ jobs:
           nuGetPath: './nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
-          configuration: '$(BuildConfiguration)'
+          configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
           packDirectory: '$(Build.ArtifactStagingDirectory)'
 
       - name: Run Tests
