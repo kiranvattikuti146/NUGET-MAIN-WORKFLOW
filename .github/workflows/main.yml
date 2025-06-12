@@ -65,7 +65,7 @@ jobs:
           command: publish
           projects: '**/*.csproj'
           arguments: null
-          nexusUrl = "https://your-nexus-repository-url/repository/your-repo-name/" 
+          nexusUrl : "https://your-nexus-repository-url/repository/your-repo-name/" 
           nexusUsername = "admin"
           nexusPassword = "Hexaware@2025"
           
