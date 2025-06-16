@@ -48,6 +48,14 @@ runs:
       with:
         dotnet-version: '9.0.201'
 
+    - name: Validate nuget.config Path
+      shell: pwsh
+      run: |
+        if (!(Test-Path "${{ inputs.nugetConfigPath }}")) {
+          Write-Error "nuget.config file not found at path: ${{ inputs.nugetConfigPath }}"
+          exit 1
+        }
+
     - name: Restore NuGet Packages
       shell: pwsh
       run: |
