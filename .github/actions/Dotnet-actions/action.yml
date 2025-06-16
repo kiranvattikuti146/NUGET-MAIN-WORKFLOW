@@ -40,27 +40,13 @@ inputs:
 runs:
   using: 'composite'  
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.201'
-
+  
     - name: Validate nuget.config Path
       shell: pwsh
       run: |
         if (!(Test-Path "${{ inputs.nugetConfigPath }}")) {
           Write-Error "nuget.config file not found at path: ${{ inputs.nugetConfigPath }}"
           exit 1
-        }
-
-    - name: Download NuGet
-      shell: pwsh
-      run: |
-        if (!(Test-Path "${{ inputs.nuGetPath }}")) {
-          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/v${{ inputs.nuGetVersion }}/nuget.exe" -OutFile "${{ inputs.nuGetPath }}"
         }
 
     - name: Restore NuGet Packages
