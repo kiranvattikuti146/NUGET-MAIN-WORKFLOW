@@ -7,28 +7,30 @@ on:
   pull_request:
 
 jobs:
-  run-tests:
-    uses: ./.github/actions/vstest
+  vstest-action:
+    runs-on: "self-hosted"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-    with:
-      runsOn: "self-hosted"
-      dotnet-version: "7.0.x"
-      test-assembly: '*AspnetCoreMvcFull.dll'
-      code-coverage-enabled: true
-      configuration: "Release"
-      platform: "x64"
-      test-run-title: "Unit Tests"
-      run-in-parallel: true
-      testPlan: "Plan1"
-      testSuite: "SuiteA"
-      testConfiguration: "DebugConfig"
-      tcmTestRun: "1234"
-      uiTests: false
-      vsTestVersion: "latest"
-      diagnosticsEnabled: true
-      rerunFailedTests: true
-      rerunType: "specific"
-      rerunMaxAttempts: "3"
-      dontDistribute: false
+
+      - name: dotnet-test
+        uses: ./.github/actions/vstest
+        with:
+          dotnet-version: "7.0.x"
+          test-assembly: '*AspnetCoreMvcFull.dll'
+          code-coverage-enabled: true
+          configuration: "Release"
+          platform: "x64"
+          test-run-title: "Unit Tests"
+          run-in-parallel: true
+          testPlan: "Plan1"
+          testSuite: "SuiteA"
+          testConfiguration: "DebugConfig"
+          tcmTestRun: "1234"
+          uiTests: false
+          vsTestVersion: "latest"
+          diagnosticsEnabled: true
+          rerunFailedTests: true
+          rerunType: "specific"
+          rerunMaxAttempts: "3"
+          dontDistribute: false
