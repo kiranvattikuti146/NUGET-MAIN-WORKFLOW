@@ -1,5 +1,3 @@
-workflow:
-
 name: VSTest Reusable Workflow
 
 inputs:
@@ -67,52 +65,51 @@ inputs:
 runs:
   using: 'composite'
   steps:
-  
-  - name: Restore dependencies
-    shell: pwsh
-    run: dotnet restore
+    - name: Restore dependencies
+      shell: pwsh
+      run: dotnet restore
 
-  - name: Build solution
-    shell: pwsh
-    run: dotnet build --configuration ${{ inputs.configuration }} --no-restore
+    - name: Build solution
+      shell: pwsh
+      run: dotnet build --configuration ${{ inputs.configuration }} --no-restore
 
-  - name: Debug Directory Structure
-    shell: pwsh
-    run: |
-      # Debug: List all files in the working directory
-      $workingDirectory = "${{ github.workspace }}"
-      Set-Location -Path $workingDirectory
-      Write-Host "Listing all files in the working directory:"
-      Get-ChildItem -Path $workingDirectory -Recurse | ForEach-Object { Write-Host $_.FullName }
+    - name: Debug Directory Structure
+      shell: pwsh
+      run: |
+        # Debug: List all files in the working directory
+        $workingDirectory = "${{ github.workspace }}"
+        Set-Location -Path $workingDirectory
+        Write-Host "Listing all files in the working directory:"
+        Get-ChildItem -Path $workingDirectory -Recurse | ForEach-Object { Write-Host $_.FullName }
 
-  - name: Run tests with Visual Studio Test Runner
-    shell: pwsh
-    run: |
-      # Ensure the correct working directory
-      $workingDirectory = "${{ github.workspace }}"
-      Set-Location -Path $workingDirectory
+    - name: Run tests with Visual Studio Test Runner
+      shell: pwsh
+      run: |
+        # Ensure the correct working directory
+        $workingDirectory = "${{ github.workspace }}"
+        Set-Location -Path $workingDirectory
 
-      # Resolve test assemblies from the bin directory
-      $testAssemblies = Get-ChildItem -Path $workingDirectory -Recurse -File | Where-Object { $_.FullName -match "bin/.*/${{ inputs.configuration }}/.'**\*Abstractions.dll' } | ForEach-Object { $_.FullName }
-      if (-not $testAssemblies) {
-        Write-Error "No test assemblies found matching the pattern '${{ inputs.test-assembly }}'."
-        exit 1
-      }
+        # Resolve test assemblies from the bin directory
+        $testAssemblies = Get-ChildItem -Path $workingDirectory -Recurse -File | Where-Object { $_.FullName -match "bin/.*/${{ inputs.configuration }}/.*${{ inputs.test-assembly }}" } | ForEach-Object { $_.FullName }
+        if (-not $testAssemblies) {
+          Write-Error "No test assemblies found matching the pattern '${{ inputs.test-assembly }}'."
+          exit 1
+        }
 
-      # Debug: List resolved test assemblies
-      Write-Host "Resolved test assemblies:"
-      $testAssemblies | ForEach-Object { Write-Host $_ }
+        # Debug: List resolved test assemblies
+        Write-Host "Resolved test assemblies:"
+        $testAssemblies | ForEach-Object { Write-Host $_ }
 
-      # Construct VSTest arguments
-      $vstestArgs = @()
-      if (${{ inputs.code-coverage-enabled }}) { $vstestArgs += '/EnableCodeCoverage' }
-      if (${{ inputs.run-in-parallel }}) { $vstestArgs += '/Parallel' }
-      if (${{ inputs.diagnosticsEnabled }}) { $vstestArgs += '/Diag:logfile.txt' }
-      if (${{ inputs.rerunFailedTests }}) { $vstestArgs += "/Rerun:${{ inputs.rerunType }}" }
+        # Construct VSTest arguments
+        $vstestArgs = @()
+        if (${{ inputs.code-coverage-enabled }}) { $vstestArgs += '/EnableCodeCoverage' }
+        if (${{ inputs.run-in-parallel }}) { $vstestArgs += '/Parallel' }
+        if (${{ inputs.diagnosticsEnabled }}) { $vstestArgs += '/Diag:logfile.txt' }
+        if (${{ inputs.rerunFailedTests }}) { $vstestArgs += "/Rerun:${{ inputs.rerunType }}" }
 
-      # Run VSTest for each resolved test assembly
-      foreach ($testAssembly in $testAssemblies) {
-        $command = "${{ inputs.vstestLocation }} `"$testAssembly`" /Settings:TestSettings.runsettings $($vstestArgs -join ' ')"
-        Write-Host "Executing: $command"
-        Invoke-Expression $command
-      }
+        # Run VSTest for each resolved test assembly
+        foreach ($testAssembly in $testAssemblies) {
+          $command = "${{ inputs.vstestLocation }} `"$testAssembly`" /Settings:TestSettings.runsettings $($vstestArgs -join ' ')"
+          Write-Host "Executing: $command"
+          Invoke-Expression $command
+        }
