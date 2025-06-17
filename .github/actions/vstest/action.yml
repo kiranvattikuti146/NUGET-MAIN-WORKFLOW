@@ -1,7 +1,5 @@
 name: VSTest Reusable Workflow
 
-on:
-  workflow_call:
     inputs:
       runsOn:
         required: true
@@ -64,13 +62,10 @@ on:
         required: false
         type: boolean
 
-jobs:
-  run-tests:
-    runs-on: ${{ inputs.runsOn }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+    runs:
+      using: 'composite'  
+      steps:
+  
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
