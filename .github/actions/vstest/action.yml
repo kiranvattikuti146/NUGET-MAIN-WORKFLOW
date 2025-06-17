@@ -67,12 +67,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-
-  - name: Setup .NET
-    uses: actions/setup-dotnet@v4
-    with:
-      dotnet-version: ${{ inputs.dotnet-version }}
-
+  
   - name: Restore dependencies
     shell: pwsh
     run: dotnet restore
