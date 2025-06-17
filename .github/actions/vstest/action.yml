@@ -1,3 +1,5 @@
+workflow:
+
 name: VSTest Reusable Workflow
 
 inputs:
@@ -72,9 +74,11 @@ runs:
       dotnet-version: ${{ inputs.dotnet-version }}
 
   - name: Restore dependencies
+    shell: pwsh
     run: dotnet restore
 
   - name: Build solution
+    shell: pwsh
     run: dotnet build --configuration ${{ inputs.configuration }} --no-restore
 
   - name: Debug Directory Structure
