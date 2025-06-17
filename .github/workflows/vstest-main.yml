@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-tests:
-    uses: ./.github/actions/VStest
+    uses: ./.github/actions/vstest
     with:
       runsOn: "self-hosted"
       dotnet-version: "7.0.x"
