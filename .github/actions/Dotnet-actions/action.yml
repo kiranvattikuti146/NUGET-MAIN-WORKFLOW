@@ -49,13 +49,6 @@ runs:
           exit 1
         } 
 
-    - name: Download NuGet
-      shell: pwsh
-      run: |
-        if (!(Test-Path "${{ inputs.nuGetPath }}")) {
-          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/v${{ inputs.nuGetVersion }}/nuget.exe" -OutFile "${{ inputs.nuGetPath }}"
-        }
-        
     - name: Restore NuGet Packages
       shell: pwsh
       run: |
