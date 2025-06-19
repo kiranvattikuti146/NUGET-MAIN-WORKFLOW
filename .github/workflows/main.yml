@@ -11,7 +11,7 @@ env:
 
 jobs:
   Build:
-    runs-on: windows-latest
+    runs-on: self-hosted
     env:
       BuildConfiguration: 'Release' # Define the configuration as an environment variable
     steps:
