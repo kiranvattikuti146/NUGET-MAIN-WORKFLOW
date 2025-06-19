@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+      
+env: 
+  nexus_username: ${{ secrets.NEXUS_USERNAME }}
+  nexus_password: ${{ secrets.NEXUS_PASSWORD }}
 
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: windows-latest
     env:
       BuildConfiguration: 'Release' # Define the configuration as an environment variable
     steps:
@@ -20,9 +24,9 @@ jobs:
           command: restore
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
-          packagesDirectory: "path/to/packages"
+          packagesDirectory: "${{ github.workspace }}/packages"
           noCache: true
-          nuGetPath: './nuget.exe'
+          nuGetPath: 'nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
           configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
@@ -33,9 +37,9 @@ jobs:
           command: build
           projects: '**/*.csproj'
           nugetConfigPath: ./NuGet.config
-          packagesDirectory: "path/to/packages"
+          packagesDirectory: "${{ github.workspace }}/packages"
           arguments: null
-          nuGetPath: './nuget.exe'
+          nuGetPath: 'nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
           configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
@@ -48,14 +52,13 @@ jobs:
           projects: '**/*.csproj'
           arguments: null
          
-          
       - name: Pack Project
         uses: ./.github/actions/Dotnet-actions
         with:
           command: pack
           projects: '**/*.csproj'
           arguments: null
-          nuGetPath: './nuget.exe'
+          nuGetPath: 'nuget.exe'
           nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
 
@@ -65,8 +68,4 @@ jobs:
           command: publish
           projects: '**/*.csproj'
           arguments: null
-          nexusUrl : "https://your-nexus-repository-url/repository/your-repo-name/" 
-          nexusUsername : "admin"
-          nexusPassword : "Hexaware@2025"
-          
-    
+        
