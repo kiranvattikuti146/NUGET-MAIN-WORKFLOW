@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - main
-      
-env: 
-  nexus_username: ${{ secrets.NEXUS_USERNAME }}
-  nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+
 
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: windows-latest
     env:
       BuildConfiguration: 'Release' # Define the configuration as an environment variable
     steps:
@@ -23,11 +20,6 @@ jobs:
         with:
           command: restore
           projects: '**/*.csproj'
-          nugetConfigPath: ./NuGet.config
-          packagesDirectory: "${{ github.workspace }}/packages"
-          noCache: true
-          nuGetPath: 'nuget.exe'
-          nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
           configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
 
@@ -36,11 +28,7 @@ jobs:
         with:
           command: build
           projects: '**/*.csproj'
-          nugetConfigPath: ./NuGet.config
-          packagesDirectory: "${{ github.workspace }}/packages"
           arguments: null
-          nuGetPath: 'nuget.exe'
-          nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
           configuration: '${{ env.BuildConfiguration }}' # Use the environment variable
           packDirectory: '$(Build.ArtifactStagingDirectory)'
@@ -58,8 +46,6 @@ jobs:
           command: pack
           projects: '**/*.csproj'
           arguments: null
-          nuGetPath: 'nuget.exe'
-          nuGetVersion: '5.11.0'
           solution: './OrchardCore.sln'
 
       - name: Publish Project
@@ -68,4 +54,3 @@ jobs:
           command: publish
           projects: '**/*.csproj'
           arguments: null
-        
