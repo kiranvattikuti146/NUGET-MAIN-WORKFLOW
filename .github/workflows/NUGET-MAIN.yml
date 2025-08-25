@@ -96,7 +96,6 @@ jobs:
       publishFeedCredentials: 'https://api.nuget.org/v3/index.json'
       publishPackageMetadata: 'true'
       verbosityPush: 'Normal'
-      # restore/pack inputs included for completeness
       restoreSolution: '**/*.sln'
       packagesToPack: '**/*.csproj'
       configuration: 'Release'
