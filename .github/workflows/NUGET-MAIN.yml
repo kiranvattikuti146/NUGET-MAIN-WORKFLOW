@@ -7,7 +7,7 @@ on:
 
 jobs:
   restore:
-    uses: ./.github/workflows/action.ml
+    uses: ./.github/workflows/NUGET-action/action.ml
     with:
       command: 'restore'
       restoreSolution: '**/*.sln'
